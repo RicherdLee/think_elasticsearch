@@ -1,0 +1,75 @@
+{
+  "name": "think_elasticsearch",
+  "version": "1.0.0",
+  "description": "基于elasticsearch.js的elasticsearch工具",
+  "scripts": {
+    "test": "npm run eslint && npm run test-cov",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -t 50000 --recursive  -R spec test/",
+    "compile": "babel src -d lib",
+    "compile-test": "babel exmple/model/src -d exmple/model/lib",
+    "watch-compile": "npm run compile -- --watch",
+    "prepublish": "npm run compile && npm test",
+    "eslint": "eslint src/",
+    "pack": "npm shrinkwrap && shrinkpack ."
+  },
+  "babel": {
+    "presets": [
+      "es2015-loose",
+      "stage-2"
+    ],
+    "plugins": [
+      "transform-runtime"
+    ]
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RicherdLee/think_elasticsearch.git"
+  },
+  "keywords": [
+    "thinkorm",
+    "thinknode",
+    "framework",
+    "elasticsearch"
+  ],
+  "engines": {
+    "node": ">4.0.0"
+  },
+  "author": {
+    "name": "lihao",
+    "email": "lihao19860813@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RicherdLee/think_elasticsearch/issues"
+  },
+  "homepage": "https://github.com/RicherdLee/think_elasticsearch",
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015-loose": "^7.0.0",
+    "babel-preset-stage-2": "^6.11.0",
+    "eslint": "3.1.1",
+    "istanbul": "0.4.4",
+    "mocha": "2.5.3",
+    "muk": "0.5.2"
+  },
+  "dependencies": {
+    "babel-runtime": "6.9.2",
+    "bluebird": "3.4.1",
+    "elasticsearch": "^11.0.1"
+  },
+  "maintainers": [
+    {
+      "name": "richerdlee",
+      "email": "richerdlee@163.com"
+    },
+    {
+      "name": "richenlin",
+      "email": "richenlin@gmail.com"
+    }
+  ]
+}
