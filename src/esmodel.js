@@ -203,10 +203,11 @@ export default class extends base {
     /**
      * 设置主键
      */
-    setId(idvalue) {
-        this.__options.id = idvalue;
-        return this;
-    }
+    //modify by lihao 删除此方法,ES在mapping可指定从文档的字段生成_id
+    //setId(idvalue) {
+    //    this.__options.id = idvalue;
+    //    return this;
+    //}
 
     /**
      * 查询字段

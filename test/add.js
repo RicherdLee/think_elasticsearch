@@ -21,8 +21,7 @@ var data = {
     create_time: Math.ceil(new Date().getTime() / 1000),//除以1000是因为使用的是second,表示的10为时间戳
     update_time: Math.ceil(new Date().getTime() / 1000)
 };
-//setId方法可以指定es文档的Id取自数据的哪个值,如果不指定,则由es采用自增方式
-bookM.setId('id').add(data).then(res=> {
+bookM.add(data).then(res=> {
     "use strict";
     console.log(res);
 })
