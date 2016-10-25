@@ -428,7 +428,6 @@ var extend = function () {
  * @return {[type]} charset [description]
  */
 var md5 = function (str, charset = 'utf-8') {
-    'use strict';
     let instance = crypto.createHash('md5');
     instance.update(str + '', charset);
     return instance.digest('hex');

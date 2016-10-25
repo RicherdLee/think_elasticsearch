@@ -8,7 +8,6 @@
 import base from '../base';
 import lib from '../Util/lib'
 let parseCondition = function (conditionObj, condition = {}, k, op = 'must') {
-    "use strict";
     let identifiers = {
         or: 'should',
         should: 'should',

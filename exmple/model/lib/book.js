@@ -34,9 +34,22 @@ var _class = function (_esmodel) {
         this.index = 'apsystem';
         this.type = 'book';
         this._mapping = {
+            userid: {
+                type: 'string'
+            },
             username: {
                 type: 'string'
             },
+            source: 'string',
+            info: {
+                idNo: { type: 'string' },
+                real_name: { type: 'string' },
+                address: { type: 'string' },
+                phonenum: { type: 'string' },
+                email: { type: 'string' },
+                qq: { type: 'string' },
+                wechat_unionid: { type: 'string' }, //微信unionid
+                sina_weibo: { type: 'string' } },
             create_time: {
                 type: 'second'
             },
