@@ -7,6 +7,10 @@
  */
 let parseMap = function (mapping) {
     for (let map in mapping) {
+        if (lib.isString(mapping[map]) && lib.isEmpty(mapping[map].type)) {
+            delete mapping[map]
+            continue;
+        }
         switch (mapping[map].type) {
             case 'second'://10位时间戳
                 mapping[map] = {type: 'date', format: 'epoch_second'};
@@ -18,7 +22,7 @@ let parseMap = function (mapping) {
                 mapping[map]['type'] = 'date';
                 break;
             case undefined://子对象,需要进一步解析
-                mapping[map] = {properties: parseMap(map)};
+                mapping[map] = {properties: parseMap(mapping[map])};
                 break;
             case 'string'://默认不进行Analysis not_analyzed
                 mapping[map]['analysis'] || (mapping[map]['index'] = 'not_analyzed');
