@@ -167,6 +167,18 @@ export default class extends base {
     }
 
     /**
+     * 使用脚本
+     * ES中默认未开启Grooy脚本,需要在elasticsearch.yml中进行配置
+     * script.inline: on
+     # script.indexed: on
+     * @param flag
+     */
+    script(flag = false) {
+        this.__options.script = flag;
+        return this;
+    }
+
+    /**
      * 全文搜索
      * @param match
      */
