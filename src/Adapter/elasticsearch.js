@@ -148,6 +148,7 @@ export default class extends base {
     execute(data, optype = 'create') {
         this.queryObj.body = data;
         return this.socket().connect().then(conn=> {
+            console.log(this.queryObj)
             return conn[optype](this.queryObj);
         }).then(data=> {
             //this.close();
@@ -300,6 +301,19 @@ export default class extends base {
     }
 
     /**
+     * 更新数据
+     * @param data
+     * @param options
+     */
+    update(data, options) {
+        //判断是否有更新条件,无更新条件使用update,有更新条件使用updateByQuery
+        this.queryBuilder(options, 'update', data);
+        let op = 'update';
+        if (lib.isEmpty(options.id) && !lib.isEmpty(options.match) || !lib.isEmpty(options.filter)) op = 'update';
+        return this.execute({doc: data}, op);
+    }
+
+    /**
      * 查询
      * @param options
      */
@@ -333,6 +347,7 @@ export default class extends base {
      * @param optype
      */
     queryBuilder(options, optype = 'select', data) {
+        console.log(options)
         let caseList = {
             select: {
                 index: true,
@@ -348,7 +363,7 @@ export default class extends base {
                 join: true
             },
             add: {index: true, type: true, id: true},
-            update: {index: true, type: true, where: true},
+            update: {index: true, type: true, where: true, match: true, filter: true, id: true},
             delete: {index: true, type: true, where: true},
             count: {index: true, type: true, aggs: true, match: true, limit: true, filter: true, where: true},
             min: {index: true, type: true, where: true},
@@ -386,11 +401,7 @@ export default class extends base {
      * @param data
      */
     builderId(optionsId, data) {
-        if (lib.isNumber(optionsId)) {
-            this.queryObj.id = optionsId;
-        } else if (lib.isString(optionsId) && data[optionsId]) {
-            this.queryObj.id = data[optionsId];
-        }
+        this.queryObj.id = optionsId;
     }
 
     /**

@@ -72,7 +72,7 @@ export default class extends base {
                 key: lib.md5(JSON.stringify(this._mapping)),
                 version: aliasesversion
             };
-            if (this.safe) {//允许数据迁移
+            if (this.safe === false) {//允许数据迁移
                 if (await this.adapter().existsType(this.index, this.type)) {
                     //判断ES文档中的mappgin和model中的model是否一致,如果不一致,则需要update mapping
                     let esmapping = await this.adapter().getMapping(this.index, this.type);
@@ -268,8 +268,9 @@ export default class extends base {
      */
     async add(data, options) {
         let parsedOptions = await this._parseOptions(options);
-        this.__data = lib.extend({}, data);
-        return this.adapter().add(this.__data, parsedOptions);
+        let __data = lib.extend({}, data);
+        //__data = await this._checkData(__data);
+        return this.adapter().add(__data, parsedOptions);
     }
 
     /**
@@ -281,6 +282,22 @@ export default class extends base {
         let parsedOptions = await this._parseOptions(options);
         this.__data = lib.extend([], data);
         return this.adapter().addAll(this.__data, parsedOptions);
+    }
+
+    /**
+     * 更新记录,ES更新分为直接以id为条件更新或指定条件更新,不提供无条件更新
+     * @param data
+     * @param options
+     */
+    async update(data, options) {
+        let parsedOption = await this._parseOptions(options);
+        let __data = lib.extend({}, data);
+        if (lib.isEmpty(__data.id) && lib.isEmpty(parsedOption.match) && lib.isEmpty(parsedOption.filter)) return this.error('ES必须指定条件更新');
+        if (!lib.isEmpty(__data.id)) {
+            parsedOption.id = __data.id;
+            delete __data.id;
+        }
+        return this.adapter().update(__data, parsedOption);
     }
 
     /**
@@ -376,5 +393,14 @@ export default class extends base {
         options.type = this.type;
 
         return options;
+    }
+
+    /**
+     * 数据检测
+     * @param data
+     * @private
+     */
+    _checkData(data) {
+        //判断字段默认类型合法性,此处有个问题,对于ES的mapping可关闭或开启mapping中未设置的类型
     }
 }
