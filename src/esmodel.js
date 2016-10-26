@@ -292,10 +292,15 @@ export default class extends base {
     async update(data, options) {
         let parsedOption = await this._parseOptions(options);
         let __data = lib.extend({}, data);
-        if (lib.isEmpty(__data.id) && lib.isEmpty(parsedOption.match) && lib.isEmpty(parsedOption.filter)) return this.error('ES必须指定条件更新');
+        if (lib.isEmpty(__data.id) && lib.isEmpty(parsedOption.match) && lib.isEmpty(parsedOption.filter) && lib.isEmpty(parsedOption.where)) return this.error('ES必须指定条件更新');
         if (!lib.isEmpty(__data.id)) {
             parsedOption.id = __data.id;
             delete __data.id;
+        }
+        //ES的_id项并没有在文档中,而是与index,type同级.因此通过_id更新时,不应该通过解析
+        //暂时将where中的参数作为id
+        if (!lib.isEmpty(parsedOption.where) && !lib.isEmpty(parsedOption.where.id)) {
+            parsedOption.id = parsedOption.where.id;
         }
         return this.adapter().update(__data, parsedOption);
     }
