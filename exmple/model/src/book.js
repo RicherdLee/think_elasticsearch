@@ -13,8 +13,20 @@ export default class extends esmodel {
         this.index = 'apsystem';
         this.type = 'book';
         this._mapping = {
-            username: {
+            user_name: {
                 type: 'string'
+            },
+            nick_name: {
+                type: 'string'
+            },
+            class: {
+                type: 'string'
+            },
+            goods: {
+                type: 'string'
+            },
+            price: {
+                type: 'integer'
             },
             create_time: {
                 type: 'second'

@@ -146,7 +146,7 @@ export default class extends base {
     }
 
     execute(data, optype = 'create') {
-        this.queryObj.body = data;
+        this.queryObj.body = lib.extend(this.queryObj.body, data);
         return this.socket().connect().then(conn=> {
             console.log(this.queryObj)
             return conn[optype](this.queryObj);
@@ -301,16 +301,22 @@ export default class extends base {
     }
 
     /**
-     * 更新数据
+     * 更新数据,根据条件match,filter更新暂时没在ES文档中找到
      * @param data
      * @param options
      */
     update(data, options) {
         //判断是否有更新条件,无更新条件使用update,有更新条件使用updateByQuery
         this.queryBuilder(options, 'update', data);
-        let op = 'update';
-        if (lib.isEmpty(options.id) && !lib.isEmpty(options.match) || !lib.isEmpty(options.filter)) op = 'update';
-        return this.execute({doc: data}, op);
+        //let op;
+        //if (lib.isEmpty(options.id) && !lib.isEmpty(options.match) || !lib.isEmpty(options.filter)) {
+        //    op = 'updateByQuery';
+        //
+        //} else {
+        //    op = 'update';
+        //    //data = {doc: data}
+        //}
+        return this.execute({doc: data}, 'update');
     }
 
     /**
@@ -347,7 +353,6 @@ export default class extends base {
      * @param optype
      */
     queryBuilder(options, optype = 'select', data) {
-        console.log(options)
         let caseList = {
             select: {
                 index: true,

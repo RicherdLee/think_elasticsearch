@@ -17,7 +17,7 @@ var book = require('../exmple/model/lib/book').default;
 var bookM = new book(config);
 var data = {
     id: '1',
-    username: 'ES',
+    user_name: 'ES',
     create_time: Math.ceil(new Date().getTime() / 1000),//除以1000是因为使用的是second,表示的10位时间戳
     update_time: Math.ceil(new Date().getTime() / 1000)
 };
