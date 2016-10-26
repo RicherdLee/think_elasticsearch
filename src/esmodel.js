@@ -403,4 +403,14 @@ export default class extends base {
     _checkData(data) {
         //判断字段默认类型合法性,此处有个问题,对于ES的mapping可关闭或开启mapping中未设置的类型
     }
+
+    /**
+     * 解析数据,根据参数判断返回是否返回ES返回的相关参数,还是只返回查询结果
+     * @param data
+     * @param options
+     * @private
+     */
+    _parseData(data, options) {
+
+    }
 }

@@ -146,7 +146,7 @@ export default class extends base {
     }
 
     execute(data, optype = 'create') {
-        this.queryObj.body = lib.extend(this.queryObj.body, data);
+        this.queryObj.body = data;
         return this.socket().connect().then(conn=> {
             console.log(this.queryObj)
             return conn[optype](this.queryObj);

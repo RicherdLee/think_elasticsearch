@@ -16,8 +16,8 @@ var config = {
 var book = require('../exmple/model/lib/book').default;
 var bookM = new book(config);
 var updateData = {
-    id: 'AVf-ys2EvuLo1zgrtaHK',
-    username: 'ES_1'
+    id: 'AVf_6uxvvuLo1zgrtaIC',
+    nick_name: '李明'
 }
 
 bookM.update(updateData).then(res=> {

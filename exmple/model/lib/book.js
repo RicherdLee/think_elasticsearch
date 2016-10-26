@@ -33,6 +33,7 @@ var _class = function (_esmodel) {
         this.safe = false;
         this.index = 'apsystem';
         this.type = 'book';
+        this.id = 'user_name';
         this._mapping = {
             user_name: {
                 type: 'string'
