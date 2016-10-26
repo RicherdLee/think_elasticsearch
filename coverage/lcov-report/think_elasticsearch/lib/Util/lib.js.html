@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40.74% </span>
+        <span class="strong">40.21% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>77/189</span>
+        <span class='fraction'>76/189</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">31% </span>
+        <span class="strong">29% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>31/100</span>
+        <span class='fraction'>29/100</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">26.47% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>9/34</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">40.64% </span>
+        <span class="strong">40.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>76/187</span>
+        <span class='fraction'>75/187</span>
       </div>
     </div>
   </div>
@@ -618,7 +618,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -628,7 +628,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -638,7 +638,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -726,7 +726,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">8×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -989,9 +989,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">20×</span>
-<span class="cline-any cline-yes">54×</span>
-<span class="cline-any cline-yes">54×</span>
-<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">16×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">40×</span>
 <span class="cline-any cline-yes">21×</span>
@@ -1003,9 +1003,9 @@
 <span class="cline-any cline-yes">21×</span>
 <span class="cline-any cline-yes">12×</span>
 <span class="cline-any cline-yes">9×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1484,7 +1484,7 @@ var extend = function extend() {
 <span class="cstat-no" title="statement not covered" >        deep = args.shift();</span>
     }
     <span class="missing-if-branch" title="else path not taken" >E</span>if (deep) {
-        target = isArray(args[0]) ? [] : {};
+        target = isArray(args[0]) ? <span class="branch-0 cbranch-no" title="branch not covered" >[] </span>: {};
     } else {
 <span class="cstat-no" title="statement not covered" >        target = args.shift();</span>
     }
@@ -1509,8 +1509,8 @@ var extend = function extend() {
             <span class="missing-if-branch" title="else path not taken" >E</span>if (deep) {
                 if (isObject(copy)) {
                     target[name] = extend(src &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >isObject(src) </span>? <span class="branch-0 cbranch-no" title="branch not covered" >src </span>: {}, copy);
-                } else if (isArray(copy)) {
-                    target[name] = extend([], copy);
+                } else <span class="missing-if-branch" title="if path not taken" >I</span>if (isArray(copy)) {
+<span class="cstat-no" title="statement not covered" >                    target[name] = extend([], copy);</span>
                 } else {
                     target[name] = copy;
                 }
@@ -1570,7 +1570,7 @@ module.exports = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 26 2016 15:39:13 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Oct 26 2016 20:54:03 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

@@ -136,8 +136,8 @@ export default class extends base {
 
     query(searchType = 'query_then_fetch') {
         this.queryObj.searchType = searchType;
-        console.log(JSON.stringify(this.queryObj))
         return this.socket().connect().then(conn=> {
+            console.log(this.queryObj)
             return conn.search(this.queryObj);
         }).then(data=> {
             //this.close();
@@ -316,7 +316,10 @@ export default class extends base {
         //    op = 'update';
         //    //data = {doc: data}
         //}
-        return this.execute({doc: data}, 'update');
+        if (!options.script) {
+            data = {doc: data}
+        }
+        return this.execute(data, 'update');
     }
 
     /**
@@ -378,6 +381,14 @@ export default class extends base {
             increment: {index: true, type: true, where: true},
             decrement: {index: true, type: true, where: true},
         }
+        //重新清空查询条件
+        this.queryObj = {
+            body: {
+                query: {
+                    filtered: {}
+                }
+            }
+        };
         for (let o in options) {
             if (caseList[optype][o] && this[`builder${lib.ucFirst(o)}`]) this[`builder${lib.ucFirst(o)}`](options[o], data);
         }
