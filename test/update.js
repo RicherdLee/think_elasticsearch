@@ -1,9 +1,9 @@
 /**
- * 写入数据
+ * 数据更新,ES指定id进行更新
  * @author     lihao
  * @copyright  Copyright (c) 2016 - <lihao19860813(at)gmail.com>
  * @license    MIT
- * @version    16/8/23
+ * @version    2016/10/26
  */
 var ES = require('../index');
 //初始化模型
@@ -15,13 +15,12 @@ var config = {
 };
 var book = require('../exmple/model/lib/book').default;
 var bookM = new book(config);
-var data = {
-    id: '1',
-    user_name: 'ES',
-    create_time: Math.ceil(new Date().getTime() / 1000),//除以1000是因为使用的是second,表示的10位时间戳
-    update_time: Math.ceil(new Date().getTime() / 1000)
-};
-bookM.add(data).then(res=> {
+var updateData = {
+    id: 'AVf_6uxvvuLo1zgrtaIC',
+    nick_name: '李明'
+}
+
+bookM.update(updateData).then(res=> {
     "use strict";
-    console.log(res);
+    console.log(res)
 })

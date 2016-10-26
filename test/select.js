@@ -21,11 +21,11 @@ bookM
         //or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
         //not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
     })
-    .match({
-        or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-        not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-    })
+    //.match({
+    //    or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
+    //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
+    //})
 
     .select().then(res => {
-    //console.log(res.hits.hits)
+    console.log(res.hits.hits)
 })

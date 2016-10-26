@@ -9,26 +9,24 @@ import esmodel from '../../../lib/esmodel'
 export default class extends esmodel {
     init(config) {
         super.init(config);
-        this.safe = true;
+        this.safe = false;
         this.index = 'apsystem';
         this.type = 'book';
         this._mapping = {
-            userid: {
+            user_name: {
                 type: 'string'
             },
-            username: {
+            nick_name: {
                 type: 'string'
             },
-            source: 'string',
-            info: {
-                idNo: {type: 'string'},
-                real_name: {type: 'string'},
-                address: {type: 'string'},
-                phonenum: {type: 'string'},
-                email: {type: 'string'},
-                qq: {type: 'string'},
-                wechat_unionid: {type: 'string'},//微信unionid
-                sina_weibo: {type: 'string'},//新浪微博
+            class: {
+                type: 'string'
+            },
+            goods: {
+                type: 'string'
+            },
+            price: {
+                type: 'integer'
             },
             create_time: {
                 type: 'second'
