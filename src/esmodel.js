@@ -44,104 +44,161 @@ export default class extends base {
         this.safe = true;
     }
 
+    static createIndex(config, newindex, options, oldindex, aliase, delOldIndex = false) {
+        if (lib.isEmpty(config)) return Error('缺少ES配置');
+        if (lib.isEmpty(newindex)) return Error('缺少所索引');
+        if (lib.isEmpty(options)) return Error('缺少索引配置项');
+        let Adapter = require('./Adapter/elasticsearch').default;
+        let _adapter = new Adapter(config);
+        //创建索引
+        return _adapter.createIndex(newindex, options).then(()=> {
+            //数据迁移
+            if (!lib.isEmpty(oldindex)) {
+                return _adapter.reIndex(oldindex, newindex);
+            } else {
+                return Promise.resolve();
+            }
+        }).then(()=> {
+            //查看原有索引的与现在索引是否相同,如果相同的话,就需要删除原有索引
+            if (delOldIndex == true) {
+                return _adapter.getAlias(oldindex).then((oldaliase)=> {
+                    if (aliase == oldaliase) return Error('原有索引与现索引的别名相同,需要设置delOldIndex为true来删除原有索引');
+                }).then(()=> {
+                    return _adapter.delIndex(oldindex);
+                }).catch(e=> {
+                    console.log(69)
+                    console.log(e)
+                })
+            }
+        }).then(()=> {
+            //为新索引设置别名
+            if (!lib.isEmpty(aliase)) {
+                return _adapter.setAlias(newindex, aliase);
+            }
+            return Promise.resolve();
+        })
+    }
+
+    static reIndex(config, oldindex, newindex) {
+        let Adapter = require('./Adapter/elasticsearch').default;
+        let _adapter = new Adapter(config);
+        return _adapter().reIndex(oldindex, newindex);
+    }
+
+    static setAlias(config, index, aliase) {
+        let Adapter = require('./Adapter/elasticsearch').default;
+        let _adapter = new Adapter(config);
+        return _adapter().setAlias(index, aliase);
+    }
+
+    static delIndex(configindex) {
+        let Adapter = require('./Adapter/elasticsearch').default;
+        let _adapter = new Adapter(config);
+        return _adapter().delIndex(index);
+    }
+
     /**
      * 初始化ES模型,设置ES mapping
      */
-    async setCollection() {
-        //判断全局变量中是否有对应的模型且ES中是否有文档,如果没有则根据模型的mapping生成对应的ES文档
-        if (lib.isEmpty(ES.MODEL[this.index]) || lib.isEmpty(ES.MODEL[this.index][this.type])) {
-            //TODO将索引信息写入全局变量
-            let aliases = await this.adapter().getAlias(null, this.index);
-            let aliasesIndex = this.index, aliasesversion = '';
-            if (!lib.isEmpty(aliases)) {
-                this.index = Object.keys(aliases)[0];
-                let versionArr = this.index.split('_');
-                aliasesversion = versionArr[versionArr.length - 1];
-            }
-            //console.log(this.index,aliasesversion)
-            //解析mapping
-            this._mapping = {properties: parseMap(this._mapping)};
-            //console.log(this._mapping)
-            //将mapping写入全局变量
-            lib.isEmpty(ES.MODEL[aliasesIndex]) ? ES.MODEL[aliasesIndex] = {
-                [this.type]: {
-                    key: lib.md5(JSON.stringify(this._mapping)),
-                    version: aliasesversion
-                }
-            } : ES.MODEL[aliasesIndex][this.type] = {
-                key: lib.md5(JSON.stringify(this._mapping)),
-                version: aliasesversion
-            };
-            if (this.safe === false) {//允许数据迁移
-                if (await this.adapter().existsType(this.index, this.type)) {
-                    //判断ES文档中的mappgin和model中的model是否一致,如果不一致,则需要update mapping
-                    let esmapping = await this.adapter().getMapping(this.index, this.type);
-
-                    //此处要根据model设置的mapping挑出ES文档设置的mapping,判断是追加还是改变,因为ES不能对已存在的字段进行属性改变,此种状态只能重建索引,而追加则可以操作
-                    //创建文档,并生成别名,别名用于变更mapping时使用,由于ES不能动态重设mapping,所以只能通过重建mapping,reindex重新索引
-                    //而为了保证模型名称不变,因此需要通过别名方式
-                    let checkfield = function (map1, map2) {
-                        for (let map in map1) {
-                            if (map2[map]) {
-                                if (!map2[map]['type']) {
-                                    checkfield(map1[map], map2[map]);
-                                } else {
-                                    if (lib.md5(JSON.stringify(map1[map])) !== lib.md5(JSON.stringify(map2[map]))) {
-                                        //console.log(map1);
-                                        //console.log(map2);
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                        return true;
-                    }
-                    let oldindex = ES.MODEL[aliasesIndex][this.type]['version'] ? `${aliasesIndex}_${ES.MODEL[aliasesIndex][this.type]['version']}` : this.index;
-                    let mappinglist = await this.adapter().getMapping(oldindex);
-                    mappinglist = mappinglist[oldindex]['mappings'];
-                    /***TODO此处有个问题,对于index下的第一个type无mapping变化,
-                     ***而第二个type的mapping有变化,那么将对第二个type进行数据迁移,
-                     ***那么就会丢掉此index下第一个mapping***/
-                    if (!checkfield(this._mapping['properties'], esmapping[oldindex]['mappings'][this.type]['properties'])) {
-                        //需要重新创建索引
-                        let newindex = `${aliasesIndex}_${aliasesversion * 1 + 1}`;
-                        let indexSetting = await this.adapter().getSetting(oldindex);
-                        await this.adapter().createIndex(newindex, indexSetting[oldindex]);
-                        ////设置新索引setting,需要先关闭索引
-                        //await this.adapter().closeIndex(newindex);
-                        ////modify by lihao 2016/10/27 此处需要将原有index的setting配置获取
-                        //let indexSetting = await this.adapter().getSetting(oldindex);
-                        //await this.adapter().setSetting(newindex, indexSetting[oldindex]);
-                        ////设置完新索引setting后,在开启索引
-                        //await this.adapter().openIndex(newindex);
-                        //为新索引创建maaping
-                        /***modify by lihao 此处有个问题,对于index下的第一个type无mapping变化,
-                         * 而第二个type的mapping有变化,那么将对第二个type进行数据迁移,
-                         * 那么就会丢掉此index下第一个mapping,因此需要将index下的所有type都取出后,
-                         * 全部重新设置type的mapping
-                         * ***/
-                            //更新当前模型的type为新type
-                        mappinglist[this.type] = this._mapping;
-                        for (let key in mappinglist) {
-                            await this.adapter().setMapping(newindex, key, mappinglist[key]);
-                        }
-                        //数据迁移
-                        await this.adapter().reIndex(oldindex, newindex);
-                        //删除原有索引
-                        await this.adapter().delIndex(oldindex);
-
-                        //数据迁移删除原有索引后再为新索引创建别名,因为是使用index作为索引,保证对使用者index不变
-                        await this.adapter().setAlias(newindex, aliasesIndex);
-
-
-                    }
-                } else {
-                    await this.adapter().setMapping(this.index, this.type, this._mapping)
-                }
-            }
-
-        }
-    }
+    //async setCollection() {
+    //    //判断全局变量中是否有对应的模型且ES中是否有文档,如果没有则根据模型的mapping生成对应的ES文档
+    //    if (lib.isEmpty(ES.MODEL[this.index]) || lib.isEmpty(ES.MODEL[this.index][this.type])) {
+    //        //TODO将索引信息写入全局变量
+    //        let aliases = await this.adapter().getAlias(null, this.index);
+    //        let aliasesIndex = this.index, aliasesversion = '';
+    //        if (!lib.isEmpty(aliases)) {
+    //            this.index = Object.keys(aliases)[0];
+    //            let versionArr = this.index.split('_');
+    //            aliasesversion = versionArr[versionArr.length - 1];
+    //        }
+    //        //console.log(this.index,aliasesversion)
+    //        //解析mapping
+    //        this._mapping = {properties: parseMap(this._mapping)};
+    //        //console.log(this._mapping)
+    //        //将mapping写入全局变量
+    //        lib.isEmpty(ES.MODEL[aliasesIndex]) ? ES.MODEL[aliasesIndex] = {
+    //            [this.type]: {
+    //                key: lib.md5(JSON.stringify(this._mapping)),
+    //                version: aliasesversion
+    //            }
+    //        } : ES.MODEL[aliasesIndex][this.type] = {
+    //            key: lib.md5(JSON.stringify(this._mapping)),
+    //            version: aliasesversion
+    //        };
+    //        if (this.safe === false) {//允许数据迁移
+    //            if (await this.adapter().existsType(this.index, this.type)) {
+    //                //判断ES文档中的mappgin和model中的model是否一致,如果不一致,则需要update mapping
+    //                let esmapping = await this.adapter().getMapping(this.index, this.type);
+    //
+    //                //此处要根据model设置的mapping挑出ES文档设置的mapping,判断是追加还是改变,因为ES不能对已存在的字段进行属性改变,此种状态只能重建索引,而追加则可以操作
+    //                //创建文档,并生成别名,别名用于变更mapping时使用,由于ES不能动态重设mapping,所以只能通过重建mapping,reindex重新索引
+    //                //而为了保证模型名称不变,因此需要通过别名方式
+    //                let checkfield = function (map1, map2) {
+    //                    for (let map in map1) {
+    //                        if (map2[map]) {
+    //                            if (!map2[map]['type']) {
+    //                                checkfield(map1[map], map2[map]);
+    //                            } else {
+    //                                if (lib.md5(JSON.stringify(map1[map])) !== lib.md5(JSON.stringify(map2[map]))) {
+    //                                    //console.log(map1);
+    //                                    //console.log(map2);
+    //                                    return false;
+    //                                }
+    //                            }
+    //                        }
+    //                    }
+    //                    return true;
+    //                }
+    //                let oldindex = ES.MODEL[aliasesIndex][this.type]['version'] ? `${aliasesIndex}_${ES.MODEL[aliasesIndex][this.type]['version']}` : this.index;
+    //                let mappinglist = await this.adapter().getMapping(oldindex);
+    //                mappinglist = mappinglist[oldindex]['mappings'];
+    //                /***TODO此处有个问题,对于index下的第一个type无mapping变化,
+    //                 ***而第二个type的mapping有变化,那么将对第二个type进行数据迁移,
+    //                 ***那么就会丢掉此index下第一个mapping***/
+    //                if (!checkfield(this._mapping['properties'], esmapping[oldindex]['mappings'][this.type]['properties'])) {
+    //                    //需要重新创建索引
+    //                    let newindex = `${aliasesIndex}_${aliasesversion * 1 + 1}`;
+    //                    let indexSetting = await this.adapter().getSetting(oldindex);
+    //                    await this.adapter().createIndex(newindex, indexSetting[oldindex]);
+    //                    ////设置新索引setting,需要先关闭索引
+    //                    //await this.adapter().closeIndex(newindex);
+    //                    ////modify by lihao 2016/10/27 此处需要将原有index的setting配置获取
+    //                    //let indexSetting = await this.adapter().getSetting(oldindex);
+    //                    //await this.adapter().setSetting(newindex, indexSetting[oldindex]);
+    //                    ////设置完新索引setting后,在开启索引
+    //                    //await this.adapter().openIndex(newindex);
+    //                    //为新索引创建maaping
+    //                    /***modify by lihao 此处有个问题,对于index下的第一个type无mapping变化,
+    //                     * 而第二个type的mapping有变化,那么将对第二个type进行数据迁移,
+    //                     * 那么就会丢掉此index下第一个mapping,因此需要将index下的所有type都取出后,
+    //                     * 全部重新设置type的mapping
+    //                     * ***/
+    //                        //更新当前模型的type为新type
+    //                    mappinglist[this.type] = this._mapping;
+    //                    for (let key in mappinglist) {
+    //                        await this.adapter().setMapping(newindex, key, mappinglist[key]);
+    //                    }
+    //                    //数据迁移
+    //                    await this.adapter().reIndex(oldindex, newindex);
+    //                    //删除原有索引
+    //                    await this.adapter().delIndex(oldindex);
+    //
+    //                    //数据迁移删除原有索引后再为新索引创建别名,因为是使用index作为索引,保证对使用者index不变
+    //                    await this.adapter().setAlias(newindex, aliasesIndex);
+    //
+    //
+    //                }
+    //            } else {
+    //                try {
+    //                    await this.adapter().setMapping(this.index, this.type, this._mapping)
+    //                } catch (e) {
+    //                    console.log(e)
+    //                }
+    //            }
+    //        }
+    //
+    //    }
+    //}
 
     /**
      * 错误封装

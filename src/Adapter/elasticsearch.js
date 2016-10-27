@@ -137,7 +137,7 @@ export default class extends base {
     query(searchType = 'query_then_fetch') {
         this.queryObj.searchType = searchType;
         return this.socket().connect().then(conn=> {
-            console.log(this.queryObj)
+            lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
             return conn.search(this.queryObj);
         }).then(data=> {
             //this.close();
@@ -148,7 +148,7 @@ export default class extends base {
     execute(data, optype = 'create') {
         this.queryObj.body = data;
         return this.socket().connect().then(conn=> {
-            console.log(this.queryObj)
+            lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
             return conn[optype](this.queryObj);
         }).then(data=> {
             //this.close();
