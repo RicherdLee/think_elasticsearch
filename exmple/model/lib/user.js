@@ -32,23 +32,13 @@ var _class = function (_esmodel) {
         _esmodel.prototype.init.call(this, config);
         this.safe = false;
         this.index = 'apsystem';
-        this.type = 'book';
+        this.type = 'user';
         this._mapping = {
             user_name: {
                 type: 'string'
             },
             nick_name: {
                 type: 'string'
-            },
-            class: {
-                type: 'string'
-            },
-            goods: {
-                type: 'string',
-                analyzer: "comma" //使用setting中设置的分词器
-            },
-            price: {
-                type: 'integer'
             },
             create_time: {
                 type: 'second'

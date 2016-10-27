@@ -162,9 +162,9 @@ export default class extends base {
      * 创建索引
      * @param index
      */
-    createIndex(index) {
+    createIndex(index, setting) {
         return this.socket().connect().then(conn=> {
-            return conn.indices.create({index: index})
+            return conn.indices.create({index: index, body: setting})
         })
     }
 
@@ -195,6 +195,26 @@ export default class extends base {
                     }
                 }
             })
+        })
+    }
+
+    /**
+     * 关闭索引
+     * @param index
+     */
+    closeIndex(index) {
+        return this.socket().connect().then(conn=> {
+            return conn.indices.close({index: index})
+        })
+    }
+
+    /**
+     * 开启索引
+     * @param index
+     */
+    openIndex(index) {
+        return this.socket().connect().then(conn=> {
+            return conn.indices.open({index: index})
         })
     }
 
@@ -264,6 +284,32 @@ export default class extends base {
             return conn.indices.getMapping({
                 index: index,
                 type: type
+            })
+        })
+    }
+
+    /**
+     * 获取索引的setting
+     * @param index
+     */
+    getSetting(index) {
+        return this.socket().connect().then(conn=> {
+            return conn.indices.getSettings({
+                index: index
+            })
+        })
+    }
+
+    /**
+     * 为索引设置setting
+     * @param index
+     * @param setting
+     */
+    setSetting(index, setting) {
+        return this.socket().connect().then(conn=> {
+            return conn.indices.putSettings({
+                index: index,
+                body: setting
             })
         })
     }

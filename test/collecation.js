@@ -16,5 +16,9 @@ var config = {
     db_log: 'info'
 };
 var book = require('../exmple/model/lib/book').default;
+var user = require('../exmple/model/lib/user').default;
 var bookM = new book(config);
+var userM = new user(config);
+//2016/10/27 添加分词器测试,要求先生成index,index配置mapping中需要的analyzer
 bookM.setCollection();
+userM.setCollection();
