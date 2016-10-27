@@ -25,7 +25,7 @@ let parseMap = function (mapping) {
                 mapping[map] = {properties: parseMap(mapping[map])};
                 break;
             case 'string'://默认不进行Analysis not_analyzed
-                mapping[map]['analysis'] || (mapping[map]['index'] = 'not_analyzed');
+                mapping[map]['analyzer'] || (mapping[map]['index'] = 'not_analyzed');
                 break;
             default:
                 break;
@@ -76,6 +76,7 @@ export default class extends base {
                 if (await this.adapter().existsType(this.index, this.type)) {
                     //判断ES文档中的mappgin和model中的model是否一致,如果不一致,则需要update mapping
                     let esmapping = await this.adapter().getMapping(this.index, this.type);
+
                     //此处要根据model设置的mapping挑出ES文档设置的mapping,判断是追加还是改变,因为ES不能对已存在的字段进行属性改变,此种状态只能重建索引,而追加则可以操作
                     //创建文档,并生成别名,别名用于变更mapping时使用,由于ES不能动态重设mapping,所以只能通过重建mapping,reindex重新索引
                     //而为了保证模型名称不变,因此需要通过别名方式
@@ -96,16 +97,39 @@ export default class extends base {
                         return true;
                     }
                     let oldindex = ES.MODEL[aliasesIndex][this.type]['version'] ? `${aliasesIndex}_${ES.MODEL[aliasesIndex][this.type]['version']}` : this.index;
+                    let mappinglist = await this.adapter().getMapping(oldindex);
+                    mappinglist = mappinglist[oldindex]['mappings'];
+                    /***TODO此处有个问题,对于index下的第一个type无mapping变化,
+                     ***而第二个type的mapping有变化,那么将对第二个type进行数据迁移,
+                     ***那么就会丢掉此index下第一个mapping***/
                     if (!checkfield(this._mapping['properties'], esmapping[oldindex]['mappings'][this.type]['properties'])) {
                         //需要重新创建索引
                         let newindex = `${aliasesIndex}_${aliasesversion * 1 + 1}`;
-                        await this.adapter().createIndex(newindex);
+                        let indexSetting = await this.adapter().getSetting(oldindex);
+                        await this.adapter().createIndex(newindex, indexSetting[oldindex]);
+                        ////设置新索引setting,需要先关闭索引
+                        //await this.adapter().closeIndex(newindex);
+                        ////modify by lihao 2016/10/27 此处需要将原有index的setting配置获取
+                        //let indexSetting = await this.adapter().getSetting(oldindex);
+                        //await this.adapter().setSetting(newindex, indexSetting[oldindex]);
+                        ////设置完新索引setting后,在开启索引
+                        //await this.adapter().openIndex(newindex);
                         //为新索引创建maaping
-                        await this.adapter().setMapping(newindex, this.type, this._mapping)
+                        /***modify by lihao 此处有个问题,对于index下的第一个type无mapping变化,
+                         * 而第二个type的mapping有变化,那么将对第二个type进行数据迁移,
+                         * 那么就会丢掉此index下第一个mapping,因此需要将index下的所有type都取出后,
+                         * 全部重新设置type的mapping
+                         * ***/
+                            //更新当前模型的type为新type
+                        mappinglist[this.type] = this._mapping;
+                        for (let key in mappinglist) {
+                            await this.adapter().setMapping(newindex, key, mappinglist[key]);
+                        }
                         //数据迁移
                         await this.adapter().reIndex(oldindex, newindex);
                         //删除原有索引
                         await this.adapter().delIndex(oldindex);
+
                         //数据迁移删除原有索引后再为新索引创建别名,因为是使用index作为索引,保证对使用者index不变
                         await this.adapter().setAlias(newindex, aliasesIndex);
 
@@ -168,7 +192,7 @@ export default class extends base {
 
     /**
      * 使用脚本
-     * ES中默认未开启Grooy脚本,需要在elasticsearch.yml中进行配置
+     * ES中默认未开启Grooy脚本,需要在elasticsearch.yml中添加如下配置
      * script.inline: on
      # script.indexed: on
      * @param flag
