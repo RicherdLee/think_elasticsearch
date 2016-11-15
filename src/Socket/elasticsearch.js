@@ -11,6 +11,8 @@ export default class extends base {
         super.init(config);
         this.config = {
             host: config.db_host || '127.0.0.1',
+            user: config.db_user || 'root',
+            password: config.db_password,
             port: config.db_port || '9200',
             log: config.db_log || 'error'
         }
@@ -23,8 +25,17 @@ export default class extends base {
 
         //创建ES客户端,ES自带连接池
         let elasticsearch = require('elasticsearch');
+        console.log({
+            host: this.config.host,
+            auth: `${this.config.user}:${this.config.password}`,
+            port: this.config.port
+        })
         let client = new elasticsearch.Client({
-            host: `${this.config.host}:${this.config.port}`,
+            host: [{
+                host: this.config.host,
+                auth: `${this.config.user}:${this.config.password}`,
+                port: this.config.port
+            }],
             log: this.config.log
         });
         this.connection = client;

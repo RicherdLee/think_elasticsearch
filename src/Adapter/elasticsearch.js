@@ -153,8 +153,6 @@ export default class extends base {
         }).then(data=> {
             //this.close();
             return data;
-        }).catch(err=> {
-            console.log(err)
         })
     }
 
@@ -471,7 +469,7 @@ export default class extends base {
      * @param optionField
      */
     builderFields(optionField) {
-        this.queryObj.fields = optionField;
+        this.queryObj._source = optionField;
     }
 
     /**

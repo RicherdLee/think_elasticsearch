@@ -11,6 +11,8 @@ var config = {
     db_type: 'es', // 数据库类型
     db_host: '192.168.99.100', // 服务器地址
     db_port: '9200', // 端口
+    db_user:'root',
+    db_password:'2016_es_admin',
     db_log: 'info'
 };
 var book = require('../exmple/model/lib/book').default;
@@ -39,7 +41,6 @@ bookM.
     .count()
     .then(res=> {
         "use strict";
-        //console.log(res);
         console.log(res.aggregations.price.buckets);
         for (let r of res.aggregations.price.buckets) {
             console.log(r.goods.buckets)
