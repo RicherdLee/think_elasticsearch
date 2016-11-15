@@ -6,6 +6,7 @@
  * @version    16/8/10
  */
 import base from '../base';
+import lib from '../Util/lib'
 export default class extends base {
     init(config) {
         super.init(config);
@@ -19,17 +20,14 @@ export default class extends base {
     }
 
     connect() {
+        let key = lib.md5(JSON.stringify(this.config));
+        if (!lib.isEmpty(ES[key])) return Promise.resolve(ES[key])
         if (this.connection) {
             return Promise.resolve(this.connection);
         }
 
         //创建ES客户端,ES自带连接池
         let elasticsearch = require('elasticsearch');
-        console.log({
-            host: this.config.host,
-            auth: `${this.config.user}:${this.config.password}`,
-            port: this.config.port
-        })
         let client = new elasticsearch.Client({
             host: [{
                 host: this.config.host,
@@ -39,6 +37,7 @@ export default class extends base {
             log: this.config.log
         });
         this.connection = client;
+        ES[key] = this.connection;
         return Promise.resolve(this.connection);
     }
 
