@@ -10,7 +10,7 @@ export default class extends esmodel {
     init(config) {
         super.init(config);
         this.safe = false;
-        this.index = 'apsystem';
+        this.index = 'apsystem_2';
         this.type = 'book';
         this._mapping = {
             user_name: {

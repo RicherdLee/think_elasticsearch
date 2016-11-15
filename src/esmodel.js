@@ -238,12 +238,12 @@ export default class extends base {
     }
 
     setIndex(index) {
-        this.__options.index = index;
+        this.index = index;
         return this;
     }
 
     setType(type) {
-        this.__options.type = type;
+        this.type = type;
         return this;
     }
 

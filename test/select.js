@@ -16,16 +16,17 @@ var config = {
 var book = require('../exmple/model/lib/book').default;
 var bookM = new book(config);
 bookM
-    //.filter({
-    //    price: {between: [10, 100]},
-    //    //or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-    //    //not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-    //})
-    //.match({
-    //    or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-    //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-    //})
-
+//.filter({
+//    price: {between: [10, 100]},
+//    //or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
+//    //not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
+//})
+//.match({
+//    or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
+//    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
+//})
+    .setIndex('apsystem_*')
+    .field('goods,price')
     .select().then(res => {
     console.log(res.hits.hits)
 })

@@ -31,7 +31,7 @@ var _class = function (_esmodel) {
     _class.prototype.init = function init(config) {
         _esmodel.prototype.init.call(this, config);
         this.safe = false;
-        this.index = 'apsystem';
+        this.index = 'apsystem_2';
         this.type = 'book';
         this._mapping = {
             user_name: {
