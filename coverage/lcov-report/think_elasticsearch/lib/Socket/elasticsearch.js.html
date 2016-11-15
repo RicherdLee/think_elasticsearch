@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">91.18% </span>
+        <span class="strong">90.24% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>31/34</span>
+        <span class='fraction'>37/41</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">64.29% </span>
+        <span class="strong">68.75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>9/14</span>
+        <span class='fraction'>11/16</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">83.33% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>5/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.91% </span>
+        <span class="strong">92.31% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>30/33</span>
+        <span class='fraction'>36/39</span>
       </div>
     </div>
   </div>
@@ -127,7 +127,13 @@
 82
 83
 84
-85</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+85
+86
+87
+88
+89
+90
+91</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -151,7 +157,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
@@ -173,6 +194,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,14 +207,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -202,13 +221,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
@@ -218,6 +230,10 @@ exports.__esModule = true;
 var _promise = require('babel-runtime/core-js/promise');
 &nbsp;
 var _promise2 = _interopRequireDefault(_promise);
+&nbsp;
+var _stringify = require('babel-runtime/core-js/json/stringify');
+&nbsp;
+var _stringify2 = _interopRequireDefault(_stringify);
 &nbsp;
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 &nbsp;
@@ -235,8 +251,19 @@ var _base2 = require('../base');
 &nbsp;
 var _base3 = _interopRequireDefault(_base2);
 &nbsp;
-function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? obj : <span class="branch-1 cbranch-no" title="branch not covered" >{ default: obj };</span> }
+var _lib = require('../Util/lib');
 &nbsp;
+var _lib2 = _interopRequireDefault(_lib);
+&nbsp;
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? obj : { default: obj }; }
+&nbsp;
+/**
+ *
+ * @author     lihao
+ * @copyright  Copyright (c) 2016 - &lt;lihao19860813(at)gmail.com&gt;
+ * @license    MIT
+ * @version    16/8/10
+ */
 var _class = function (_base) {
     (0, _inherits3.default)(_class, _base);
 &nbsp;
@@ -257,17 +284,14 @@ var _class = function (_base) {
     };
 &nbsp;
     _class.prototype.connect = function connect() {
+        var key = _lib2.default.md5((0, _stringify2.default)(this.config));
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!_lib2.default.isEmpty(ES[key])) <span class="cstat-no" title="statement not covered" >return _promise2.default.resolve(ES[key]);</span>
         <span class="missing-if-branch" title="if path not taken" >I</span>if (this.connection) {
 <span class="cstat-no" title="statement not covered" >            return _promise2.default.resolve(this.connection);</span>
         }
 &nbsp;
         //创建ES客户端,ES自带连接池
         var elasticsearch = require('elasticsearch');
-        console.log({
-            host: this.config.host,
-            auth: this.config.user + ':' + this.config.password,
-            port: this.config.port
-        });
         var client = new elasticsearch.Client({
             host: [{
                 host: this.config.host,
@@ -277,6 +301,7 @@ var _class = function (_base) {
             log: this.config.log
         });
         this.connection = client;
+        ES[key] = this.connection;
         return _promise2.default.resolve(this.connection);
     };
 &nbsp;
@@ -286,14 +311,7 @@ var _class = function (_base) {
     };
 &nbsp;
     return _class;
-}(_base3.default); /**
-                    *
-                    * @author     lihao
-                    * @copyright  Copyright (c) 2016 - &lt;lihao19860813(at)gmail.com&gt;
-                    * @license    MIT
-                    * @version    16/8/10
-                    */
-&nbsp;
+}(_base3.default);
 &nbsp;
 exports.default = _class;</pre></td></tr>
 </table></pre>
@@ -301,7 +319,7 @@ exports.default = _class;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 15 2016 10:16:12 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 15 2016 14:48:20 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
