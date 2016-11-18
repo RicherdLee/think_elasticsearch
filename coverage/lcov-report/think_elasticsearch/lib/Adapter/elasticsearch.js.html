@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">31.88% </span>
+        <span class="strong">32.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>73/229</span>
+        <span class='fraction'>75/232</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">5.88% </span>
+        <span class="strong">6.59% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>5/85</span>
+        <span class='fraction'>6/91</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.48% </span>
+        <span class="strong">11.29% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>7/61</span>
+        <span class='fraction'>7/62</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">32.43% </span>
+        <span class="strong">32.89% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>72/222</span>
+        <span class='fraction'>74/225</span>
       </div>
     </div>
   </div>
@@ -717,7 +717,13 @@
 672
 673
 674
-675</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+675
+676
+677
+678
+679
+680
+681</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -887,6 +893,7 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1275,6 +1282,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1301,6 +1309,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1560,6 +1572,7 @@ var _class = function (_base) {
 &nbsp;
     _class.prototype.init = function init(config) {
         this.config = config;
+        this.logSql = config.db_log || <span class="branch-1 cbranch-no" title="branch not covered" >false;</span>
         this.queryObj = {
             body: {
                 query: {
@@ -1618,7 +1631,7 @@ var _class = function (_base) {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        this.queryObj.searchType = searchType;</span>
 <span class="cstat-no" title="statement not covered" >        return this.socket().connect().then(<span class="fstat-no" title="function not covered" >function (conn) {</span></span>
-<span class="cstat-no" title="statement not covered" >            _lib2.default.log((0, _stringify2.default)(_this2.queryObj), 'ES', Date.now());</span>
+<span class="cstat-no" title="statement not covered" >            _this2.logSql &amp;&amp; _lib2.default.log((0, _stringify2.default)(_this2.queryObj), 'ES', Date.now());</span>
 <span class="cstat-no" title="statement not covered" >            return conn.search(_this2.queryObj);</span>
         }).then(<span class="fstat-no" title="function not covered" >function (data) {</span>
             //this.close();
@@ -1633,7 +1646,7 @@ var _class = function (_base) {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        this.queryObj.body = data;</span>
 <span class="cstat-no" title="statement not covered" >        return this.socket().connect().then(<span class="fstat-no" title="function not covered" >function (conn) {</span></span>
-<span class="cstat-no" title="statement not covered" >            _lib2.default.log((0, _stringify2.default)(_this3.queryObj), 'ES', Date.now());</span>
+<span class="cstat-no" title="statement not covered" >            _this3.logSql &amp;&amp; _lib2.default.log((0, _stringify2.default)(_this3.queryObj), 'ES', Date.now());</span>
 <span class="cstat-no" title="statement not covered" >            return conn[optype](_this3.queryObj);</span>
         }).then(<span class="fstat-no" title="function not covered" >function (data) {</span>
             //this.close();
@@ -1928,6 +1941,7 @@ var _class = function (_base) {
                 index: true,
                 type: true,
                 where: true,
+                version: true,
                 order: true,
                 match: true,
                 filter: true,
@@ -1938,7 +1952,7 @@ var _class = function (_base) {
                 join: true
             },
             add: { index: true, type: true, id: true },
-            update: { index: true, type: true, where: true, match: true, filter: true, id: true },
+            update: { index: true, type: true, version: true, where: true, match: true, filter: true, id: true },
             delete: { index: true, type: true, where: true },
             count: { index: true, type: true, aggs: true, match: true, limit: true, filter: true, where: true },
             min: { index: true, type: true, where: true },
@@ -1979,6 +1993,10 @@ var _class = function (_base) {
 &nbsp;
     _class.prototype.builderType = <span class="fstat-no" title="function not covered" >function builderType(optionsType) {</span>
 <span class="cstat-no" title="statement not covered" >        this.queryObj.type = optionsType;</span>
+    };
+&nbsp;
+    _class.prototype.builderVersion = <span class="fstat-no" title="function not covered" >function builderVersion(optionsVerison) {</span>
+<span class="cstat-no" title="statement not covered" >        this.queryObj.version = optionsVerison;</span>
     };
 &nbsp;
     /**
@@ -2071,7 +2089,7 @@ exports.default = _class;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Nov 15 2016 14:48:20 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Nov 18 2016 14:57:46 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
