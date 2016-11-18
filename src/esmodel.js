@@ -489,7 +489,6 @@ export default class extends base {
         this.__options = {};
         options.index = this.index;
         options.type = this.type;
-
         return options;
     }
 

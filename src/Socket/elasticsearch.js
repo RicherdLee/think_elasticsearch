@@ -15,7 +15,7 @@ export default class extends base {
             user: config.db_user || 'root',
             password: config.db_password,
             port: config.db_port || '9200',
-            log: config.db_log || 'error'
+            log: config.db_log || 'error',
         }
     }
 
