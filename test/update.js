@@ -21,7 +21,7 @@ var updateData = {
 }
 
 bookM.where({id: 'AVf_6uxvvuLo1zgrtaIC'})
-    .update(updateData)
+    .update(updateData, {version: 1})
     .then(res=> {
         "use strict";
         console.log(res)

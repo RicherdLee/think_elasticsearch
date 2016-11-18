@@ -86,6 +86,7 @@ let parseCondition = function (conditionObj, condition = {}, k, op = 'must') {
 export default class extends base {
     init(config) {
         this.config = config;
+        this.logSql = config.db_log || false;
         this.queryObj = {
             body: {
                 query: {
@@ -137,7 +138,7 @@ export default class extends base {
     query(searchType = 'query_then_fetch') {
         this.queryObj.searchType = searchType;
         return this.socket().connect().then(conn=> {
-            lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
+            this.logSql && lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
             return conn.search(this.queryObj);
         }).then(data=> {
             //this.close();
@@ -148,7 +149,7 @@ export default class extends base {
     execute(data, optype = 'create') {
         this.queryObj.body = data;
         return this.socket().connect().then(conn=> {
-            lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
+            this.logSql && lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
             return conn[optype](this.queryObj);
         }).then(data=> {
             //this.close();
@@ -405,6 +406,7 @@ export default class extends base {
                 index: true,
                 type: true,
                 where: true,
+                version: true,
                 order: true,
                 match: true,
                 filter: true,
@@ -415,7 +417,7 @@ export default class extends base {
                 join: true
             },
             add: {index: true, type: true, id: true},
-            update: {index: true, type: true, where: true, match: true, filter: true, id: true},
+            update: {index: true, type: true, version: true, where: true, match: true, filter: true, id: true},
             delete: {index: true, type: true, where: true},
             count: {index: true, type: true, aggs: true, match: true, limit: true, filter: true, where: true},
             min: {index: true, type: true, where: true},
@@ -452,6 +454,10 @@ export default class extends base {
      */
     builderType(optionsType) {
         this.queryObj.type = optionsType;
+    }
+
+    builderVersion(optionsVerison) {
+        this.queryObj.version = optionsVerison;
     }
 
 
