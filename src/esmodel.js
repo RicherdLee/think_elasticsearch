@@ -362,6 +362,10 @@ export default class extends base {
     async add(data, options) {
         let parsedOptions = await this._parseOptions(options);
         let __data = lib.extend({}, data);
+        if (__data.hasOwnProperty('_id')) {
+            parsedOptions.id = __data._id;
+            delete __data._id;
+        }
         //__data = await this._checkData(__data);
         return this.adapter().add(__data, parsedOptions);
     }
@@ -396,6 +400,16 @@ export default class extends base {
             parsedOption.id = parsedOption.where.id;
         }
         return this.adapter().update(__data, parsedOption);
+    }
+
+    /**
+     * 批量操作
+     * @param data
+     */
+    async bulk(data, options) {
+        let parsedOption = await this._parseOptions(options);
+        let __data = lib.extend([], data);
+        return this.adapter().bulk(__data, parsedOption)
     }
 
     /**

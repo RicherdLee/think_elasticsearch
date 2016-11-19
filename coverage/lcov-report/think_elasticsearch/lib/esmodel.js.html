@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">46.97% </span>
+        <span class="strong">45.75% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>163/347</span>
+        <span class='fraction'>167/365</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">15.28% </span>
+        <span class="strong">14.67% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>22/144</span>
+        <span class='fraction'>22/150</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">53.52% </span>
+        <span class="strong">52% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>38/71</span>
+        <span class='fraction'>39/75</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">47.79% </span>
+        <span class="strong">46.5% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>162/339</span>
+        <span class='fraction'>166/357</span>
       </div>
     </div>
   </div>
@@ -953,7 +953,48 @@
 908
 909
 910
-911</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1405,6 +1446,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1512,6 +1557,43 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -2314,11 +2396,15 @@ var _class = function (_base) {
 <span class="branch-1 cbranch-no" title="branch not covered" >                        case 2:</span>
 <span class="cstat-no" title="statement not covered" >                            parsedOptions = _context.sent;</span>
 <span class="cstat-no" title="statement not covered" >                            __data = _lib2.default.extend({}, data);</span>
-                            //__data = await this._checkData(__data);
 &nbsp;
+<span class="cstat-no" title="statement not covered" >                            if (__data.hasOwnProperty('_id')) {</span>
+<span class="cstat-no" title="statement not covered" >                                parsedOptions.id = __data._id;</span>
+<span class="cstat-no" title="statement not covered" >                                delete __data._id;</span>
+                            }
+                            //__data = await this._checkData(__data);
 <span class="cstat-no" title="statement not covered" >                            return _context.abrupt('return', this.adapter().add(__data, parsedOptions));</span>
 &nbsp;
-<span class="branch-2 cbranch-no" title="branch not covered" >                        case 5:</span>
+<span class="branch-2 cbranch-no" title="branch not covered" >                        case 6:</span>
 <span class="branch-3 cbranch-no" title="branch not covered" >                        case 'end':</span>
 <span class="cstat-no" title="statement not covered" >                            return _context.stop();</span>
                     }
@@ -2428,14 +2514,15 @@ var _class = function (_base) {
     }();
 &nbsp;
     /**
-     * 查询一条记录
-     * @param options
+     * 批量操作
+     * @param data
      */
 &nbsp;
 &nbsp;
-    _class.prototype.find = function () {
-        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee4(options) {</span>
-<span class="cstat-no" title="statement not covered" >            var parsedOptions;</span>
+    _class.prototype.bulk = function () {
+        var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee4(data, options) {</span>
+<span class="cstat-no" title="statement not covered" >            var parsedOption, __data;</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee4$(_context4) {</span></span>
 <span class="cstat-no" title="statement not covered" >                while (1) {</span>
 <span class="cstat-no" title="statement not covered" >                    switch (_context4.prev = _context4.next) {</span>
@@ -2444,10 +2531,11 @@ var _class = function (_base) {
 <span class="cstat-no" title="statement not covered" >                            return this._parseOptions(options);</span>
 &nbsp;
                         case 2:
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context4.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context4.abrupt('return', this.adapter().find(parsedOptions));</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOption = _context4.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            __data = _lib2.default.extend([], data);</span>
+<span class="cstat-no" title="statement not covered" >                            return _context4.abrupt('return', this.adapter().bulk(__data, parsedOption));</span>
 &nbsp;
-                        case 4:
+                        case 5:
                         case 'end':
 <span class="cstat-no" title="statement not covered" >                            return _context4.stop();</span>
                     }
@@ -2455,8 +2543,43 @@ var _class = function (_base) {
             }, _callee4, this);
         }));
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function find(_x9) {</span>
+<span class="fstat-no" title="function not covered" >        function bulk(_x9, _x10) {</span>
 <span class="cstat-no" title="statement not covered" >            return _ref4.apply(this, arguments);</span>
+        }
+&nbsp;
+        return bulk;
+    }();
+&nbsp;
+    /**
+     * 查询一条记录
+     * @param options
+     */
+&nbsp;
+&nbsp;
+    _class.prototype.find = function () {
+        var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee5(options) {</span>
+<span class="cstat-no" title="statement not covered" >            var parsedOptions;</span>
+<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee5$(_context5) {</span></span>
+<span class="cstat-no" title="statement not covered" >                while (1) {</span>
+<span class="cstat-no" title="statement not covered" >                    switch (_context5.prev = _context5.next) {</span>
+                        case 0:
+<span class="cstat-no" title="statement not covered" >                            _context5.next = 2;</span>
+<span class="cstat-no" title="statement not covered" >                            return this._parseOptions(options);</span>
+&nbsp;
+                        case 2:
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context5.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context5.abrupt('return', this.adapter().find(parsedOptions));</span>
+&nbsp;
+                        case 4:
+                        case 'end':
+<span class="cstat-no" title="statement not covered" >                            return _context5.stop();</span>
+                    }
+                }
+            }, _callee5, this);
+        }));
+&nbsp;
+<span class="fstat-no" title="function not covered" >        function find(_x11) {</span>
+<span class="cstat-no" title="statement not covered" >            return _ref5.apply(this, arguments);</span>
         }
 &nbsp;
         return find;
@@ -2470,29 +2593,29 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.select = function () {
-        var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(options) {
+        var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(options) {
             var parsedOptions;
-            return _regenerator2.default.wrap(function _callee5$(_context5) {
+            return _regenerator2.default.wrap(function _callee6$(_context6) {
                 while (1) {
-                    switch (_context5.prev = _context5.next) {
+                    switch (_context6.prev = _context6.next) {
                         case 0:
-                            _context5.next = 2;
+                            _context6.next = 2;
                             return this._parseOptions(options);
 &nbsp;
 <span class="branch-1 cbranch-no" title="branch not covered" >                        case 2:</span>
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context5.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context5.abrupt('return', this.adapter().select(parsedOptions));</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context6.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context6.abrupt('return', this.adapter().select(parsedOptions));</span>
 &nbsp;
 <span class="branch-2 cbranch-no" title="branch not covered" >                        case 4:</span>
 <span class="branch-3 cbranch-no" title="branch not covered" >                        case 'end':</span>
-<span class="cstat-no" title="statement not covered" >                            return _context5.stop();</span>
+<span class="cstat-no" title="statement not covered" >                            return _context6.stop();</span>
                     }
                 }
-            }, _callee5, this);
+            }, _callee6, this);
         }));
 &nbsp;
-        function select(_x10) {
-            return _ref5.apply(this, arguments);
+        function select(_x12) {
+            return _ref6.apply(this, arguments);
         }
 &nbsp;
         return select;
@@ -2505,29 +2628,29 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.count = function () {
-        var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(options) {
+        var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(options) {
             var parsedOptions;
-            return _regenerator2.default.wrap(function _callee6$(_context6) {
+            return _regenerator2.default.wrap(function _callee7$(_context7) {
                 while (1) {
-                    switch (_context6.prev = _context6.next) {
+                    switch (_context7.prev = _context7.next) {
                         case 0:
-                            _context6.next = 2;
+                            _context7.next = 2;
                             return this._parseOptions(options);
 &nbsp;
 <span class="branch-1 cbranch-no" title="branch not covered" >                        case 2:</span>
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context6.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context6.abrupt('return', this.adapter().count(parsedOptions));</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context7.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context7.abrupt('return', this.adapter().count(parsedOptions));</span>
 &nbsp;
 <span class="branch-2 cbranch-no" title="branch not covered" >                        case 4:</span>
 <span class="branch-3 cbranch-no" title="branch not covered" >                        case 'end':</span>
-<span class="cstat-no" title="statement not covered" >                            return _context6.stop();</span>
+<span class="cstat-no" title="statement not covered" >                            return _context7.stop();</span>
                     }
                 }
-            }, _callee6, this);
+            }, _callee7, this);
         }));
 &nbsp;
-        function count(_x11) {
-            return _ref6.apply(this, arguments);
+        function count(_x13) {
+            return _ref7.apply(this, arguments);
         }
 &nbsp;
         return count;
@@ -2540,43 +2663,43 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.sum = function () {
-        var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee7(field, options) {</span>
+        var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee8(field, options) {</span>
 <span class="cstat-no" title="statement not covered" >            var parsedOptions, res;</span>
-<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee7$(_context7) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee8$(_context8) {</span></span>
 <span class="cstat-no" title="statement not covered" >                while (1) {</span>
-<span class="cstat-no" title="statement not covered" >                    switch (_context7.prev = _context7.next) {</span>
+<span class="cstat-no" title="statement not covered" >                    switch (_context8.prev = _context8.next) {</span>
                         case 0:
 <span class="cstat-no" title="statement not covered" >                            if (!(field === undefined)) {</span>
-<span class="cstat-no" title="statement not covered" >                                _context7.next = 2;</span>
+<span class="cstat-no" title="statement not covered" >                                _context8.next = 2;</span>
 <span class="cstat-no" title="statement not covered" >                                break;</span>
                             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                            return _context7.abrupt('return', this.error('need sum field'));</span>
+<span class="cstat-no" title="statement not covered" >                            return _context8.abrupt('return', this.error('need sum field'));</span>
 &nbsp;
                         case 2:
 <span class="cstat-no" title="statement not covered" >                            this.aggs({ sum: { sum: { field: field } } });</span>
-<span class="cstat-no" title="statement not covered" >                            _context7.next = 5;</span>
+<span class="cstat-no" title="statement not covered" >                            _context8.next = 5;</span>
 <span class="cstat-no" title="statement not covered" >                            return this._parseOptions(options);</span>
 &nbsp;
                         case 5:
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context7.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            _context7.next = 8;</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context8.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            _context8.next = 8;</span>
 <span class="cstat-no" title="statement not covered" >                            return this.adapter().count(parsedOptions);</span>
 &nbsp;
                         case 8:
-<span class="cstat-no" title="statement not covered" >                            res = _context7.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context7.abrupt('return', res.aggregations.sum.value);</span>
+<span class="cstat-no" title="statement not covered" >                            res = _context8.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context8.abrupt('return', res.aggregations.sum.value);</span>
 &nbsp;
                         case 10:
                         case 'end':
-<span class="cstat-no" title="statement not covered" >                            return _context7.stop();</span>
+<span class="cstat-no" title="statement not covered" >                            return _context8.stop();</span>
                     }
                 }
-            }, _callee7, this);
+            }, _callee8, this);
         }));
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function sum(_x12, _x13) {</span>
-<span class="cstat-no" title="statement not covered" >            return _ref7.apply(this, arguments);</span>
+<span class="fstat-no" title="function not covered" >        function sum(_x14, _x15) {</span>
+<span class="cstat-no" title="statement not covered" >            return _ref8.apply(this, arguments);</span>
         }
 &nbsp;
         return sum;
@@ -2589,43 +2712,43 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.avg = function () {
-        var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee8(field, options) {</span>
+        var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee9(field, options) {</span>
 <span class="cstat-no" title="statement not covered" >            var parsedOptions, res;</span>
-<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee8$(_context8) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee9$(_context9) {</span></span>
 <span class="cstat-no" title="statement not covered" >                while (1) {</span>
-<span class="cstat-no" title="statement not covered" >                    switch (_context8.prev = _context8.next) {</span>
+<span class="cstat-no" title="statement not covered" >                    switch (_context9.prev = _context9.next) {</span>
                         case 0:
 <span class="cstat-no" title="statement not covered" >                            if (!(field === undefined)) {</span>
-<span class="cstat-no" title="statement not covered" >                                _context8.next = 2;</span>
+<span class="cstat-no" title="statement not covered" >                                _context9.next = 2;</span>
 <span class="cstat-no" title="statement not covered" >                                break;</span>
                             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                            return _context8.abrupt('return', this.error('need avg field'));</span>
+<span class="cstat-no" title="statement not covered" >                            return _context9.abrupt('return', this.error('need avg field'));</span>
 &nbsp;
                         case 2:
 <span class="cstat-no" title="statement not covered" >                            this.aggs({ avg: { avg: { field: field } } });</span>
-<span class="cstat-no" title="statement not covered" >                            _context8.next = 5;</span>
+<span class="cstat-no" title="statement not covered" >                            _context9.next = 5;</span>
 <span class="cstat-no" title="statement not covered" >                            return this._parseOptions(options);</span>
 &nbsp;
                         case 5:
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context8.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            _context8.next = 8;</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context9.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            _context9.next = 8;</span>
 <span class="cstat-no" title="statement not covered" >                            return this.adapter().count(parsedOptions);</span>
 &nbsp;
                         case 8:
-<span class="cstat-no" title="statement not covered" >                            res = _context8.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context8.abrupt('return', res.aggregations.avg.value);</span>
+<span class="cstat-no" title="statement not covered" >                            res = _context9.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context9.abrupt('return', res.aggregations.avg.value);</span>
 &nbsp;
                         case 10:
                         case 'end':
-<span class="cstat-no" title="statement not covered" >                            return _context8.stop();</span>
+<span class="cstat-no" title="statement not covered" >                            return _context9.stop();</span>
                     }
                 }
-            }, _callee8, this);
+            }, _callee9, this);
         }));
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function avg(_x14, _x15) {</span>
-<span class="cstat-no" title="statement not covered" >            return _ref8.apply(this, arguments);</span>
+<span class="fstat-no" title="function not covered" >        function avg(_x16, _x17) {</span>
+<span class="cstat-no" title="statement not covered" >            return _ref9.apply(this, arguments);</span>
         }
 &nbsp;
         return avg;
@@ -2638,43 +2761,43 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.min = function () {
-        var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee9(field, options) {</span>
+        var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee10(field, options) {</span>
 <span class="cstat-no" title="statement not covered" >            var parsedOptions, res;</span>
-<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee9$(_context9) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee10$(_context10) {</span></span>
 <span class="cstat-no" title="statement not covered" >                while (1) {</span>
-<span class="cstat-no" title="statement not covered" >                    switch (_context9.prev = _context9.next) {</span>
+<span class="cstat-no" title="statement not covered" >                    switch (_context10.prev = _context10.next) {</span>
                         case 0:
 <span class="cstat-no" title="statement not covered" >                            if (!(field === undefined)) {</span>
-<span class="cstat-no" title="statement not covered" >                                _context9.next = 2;</span>
+<span class="cstat-no" title="statement not covered" >                                _context10.next = 2;</span>
 <span class="cstat-no" title="statement not covered" >                                break;</span>
                             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                            return _context9.abrupt('return', this.error('need min field'));</span>
+<span class="cstat-no" title="statement not covered" >                            return _context10.abrupt('return', this.error('need min field'));</span>
 &nbsp;
                         case 2:
 <span class="cstat-no" title="statement not covered" >                            this.aggs({ min: { min: { field: field } } });</span>
-<span class="cstat-no" title="statement not covered" >                            _context9.next = 5;</span>
+<span class="cstat-no" title="statement not covered" >                            _context10.next = 5;</span>
 <span class="cstat-no" title="statement not covered" >                            return this._parseOptions(options);</span>
 &nbsp;
                         case 5:
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context9.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            _context9.next = 8;</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context10.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            _context10.next = 8;</span>
 <span class="cstat-no" title="statement not covered" >                            return this.adapter().count(parsedOptions);</span>
 &nbsp;
                         case 8:
-<span class="cstat-no" title="statement not covered" >                            res = _context9.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context9.abrupt('return', res.aggregations.min.value);</span>
+<span class="cstat-no" title="statement not covered" >                            res = _context10.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context10.abrupt('return', res.aggregations.min.value);</span>
 &nbsp;
                         case 10:
                         case 'end':
-<span class="cstat-no" title="statement not covered" >                            return _context9.stop();</span>
+<span class="cstat-no" title="statement not covered" >                            return _context10.stop();</span>
                     }
                 }
-            }, _callee9, this);
+            }, _callee10, this);
         }));
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function min(_x16, _x17) {</span>
-<span class="cstat-no" title="statement not covered" >            return _ref9.apply(this, arguments);</span>
+<span class="fstat-no" title="function not covered" >        function min(_x18, _x19) {</span>
+<span class="cstat-no" title="statement not covered" >            return _ref10.apply(this, arguments);</span>
         }
 &nbsp;
         return min;
@@ -2687,43 +2810,43 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.max = function () {
-        var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee10(field, options) {</span>
+        var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(<span class="fstat-no" title="function not covered" >function _callee11(field, options) {</span>
 <span class="cstat-no" title="statement not covered" >            var parsedOptions, res;</span>
-<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee10$(_context10) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _regenerator2.default.wrap(<span class="fstat-no" title="function not covered" >function _callee11$(_context11) {</span></span>
 <span class="cstat-no" title="statement not covered" >                while (1) {</span>
-<span class="cstat-no" title="statement not covered" >                    switch (_context10.prev = _context10.next) {</span>
+<span class="cstat-no" title="statement not covered" >                    switch (_context11.prev = _context11.next) {</span>
                         case 0:
 <span class="cstat-no" title="statement not covered" >                            if (!(field === undefined)) {</span>
-<span class="cstat-no" title="statement not covered" >                                _context10.next = 2;</span>
+<span class="cstat-no" title="statement not covered" >                                _context11.next = 2;</span>
 <span class="cstat-no" title="statement not covered" >                                break;</span>
                             }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                            return _context10.abrupt('return', this.error('need max field'));</span>
+<span class="cstat-no" title="statement not covered" >                            return _context11.abrupt('return', this.error('need max field'));</span>
 &nbsp;
                         case 2:
 <span class="cstat-no" title="statement not covered" >                            this.aggs({ max: { max: { field: field } } });</span>
-<span class="cstat-no" title="statement not covered" >                            _context10.next = 5;</span>
+<span class="cstat-no" title="statement not covered" >                            _context11.next = 5;</span>
 <span class="cstat-no" title="statement not covered" >                            return this._parseOptions(options);</span>
 &nbsp;
                         case 5:
-<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context10.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            _context10.next = 8;</span>
+<span class="cstat-no" title="statement not covered" >                            parsedOptions = _context11.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            _context11.next = 8;</span>
 <span class="cstat-no" title="statement not covered" >                            return this.adapter().count(parsedOptions);</span>
 &nbsp;
                         case 8:
-<span class="cstat-no" title="statement not covered" >                            res = _context10.sent;</span>
-<span class="cstat-no" title="statement not covered" >                            return _context10.abrupt('return', res.aggregations.max.value);</span>
+<span class="cstat-no" title="statement not covered" >                            res = _context11.sent;</span>
+<span class="cstat-no" title="statement not covered" >                            return _context11.abrupt('return', res.aggregations.max.value);</span>
 &nbsp;
                         case 10:
                         case 'end':
-<span class="cstat-no" title="statement not covered" >                            return _context10.stop();</span>
+<span class="cstat-no" title="statement not covered" >                            return _context11.stop();</span>
                     }
                 }
-            }, _callee10, this);
+            }, _callee11, this);
         }));
 &nbsp;
-<span class="fstat-no" title="function not covered" >        function max(_x18, _x19) {</span>
-<span class="cstat-no" title="statement not covered" >            return _ref10.apply(this, arguments);</span>
+<span class="fstat-no" title="function not covered" >        function max(_x20, _x21) {</span>
+<span class="cstat-no" title="statement not covered" >            return _ref11.apply(this, arguments);</span>
         }
 &nbsp;
         return max;
@@ -2779,7 +2902,7 @@ exports.default = _class;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Nov 18 2016 14:57:46 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 19 2016 10:31:25 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../prettify.js"></script>
