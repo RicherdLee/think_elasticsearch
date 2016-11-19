@@ -346,6 +346,15 @@ export default class extends base {
     }
 
     /**
+     * 批量操作
+     * @param data
+     * @param options
+     */
+    bulk(data, options) {
+        return this.execute(data, 'bulk');
+    }
+
+    /**
      * 更新数据,根据条件match,filter更新暂时没在ES文档中找到
      * @param data
      * @param options
@@ -407,6 +416,7 @@ export default class extends base {
                 type: true,
                 where: true,
                 version: true,
+                retry: true,
                 order: true,
                 match: true,
                 filter: true,
@@ -417,7 +427,17 @@ export default class extends base {
                 join: true
             },
             add: {index: true, type: true, id: true},
-            update: {index: true, type: true, version: true, where: true, match: true, filter: true, id: true},
+            update: {
+                index: true,
+                type: true,
+                version: true,
+                retry: true,
+                where: true,
+                match: true,
+                filter: true,
+                id: true
+            },
+            bulk: {index: true, type: true},
             delete: {index: true, type: true, where: true},
             count: {index: true, type: true, aggs: true, match: true, limit: true, filter: true, where: true},
             min: {index: true, type: true, where: true},
@@ -458,6 +478,10 @@ export default class extends base {
 
     builderVersion(optionsVerison) {
         this.queryObj.version = optionsVerison;
+    }
+
+    builderRetry(optionRetry) {
+        this.queryObj.retry_on_conflict = optionRetry
     }
 
 
