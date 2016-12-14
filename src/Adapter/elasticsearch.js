@@ -180,13 +180,16 @@ export default class extends base {
                 let condition = {
                     index: this.queryObj.index,
                     type: this.queryObj.type,
-                    id: this.queryObj.body.query.id
+                    id: _id
                 }
                 this.logSql && lib.log(JSON.stringify(condition), 'ES', Date.now());
                 return conn.get(condition);
             }).then(data=> {
                 //this.close();
                 return data;
+            }).catch(e=>{
+                //此方法如果找不到,ES回报错误
+                return {}
             })
         })
     }
@@ -439,7 +442,7 @@ export default class extends base {
         this.queryBuilder(opitons, 'select');
         //如果存在_id项,则直接查询
         if (opitons.hasOwnProperty('where') && (opitons.where.hasOwnProperty('_id') || opitons.where.hasOwnProperty('id'))) {
-            return this.get(opitons.where.hasOwnProperty('_id') || opitons.where.hasOwnProperty('id'));
+            return this.get(opitons.where._id || opitons.where.id);
         } else {
             return this.query();
         }
