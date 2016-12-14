@@ -66,7 +66,6 @@ export default class extends base {
                 }).then(()=> {
                     return _adapter.delIndex(oldindex);
                 }).catch(e=> {
-                    console.log(69)
                     console.log(e)
                 })
             }
@@ -82,6 +81,7 @@ export default class extends base {
     static reIndex(config, oldindex, newindex) {
         let Adapter = require('./Adapter/elasticsearch').default;
         let _adapter = new Adapter(config);
+        console.log(_adapter)
         return _adapter().reIndex(oldindex, newindex);
     }
 
@@ -288,6 +288,15 @@ export default class extends base {
     }
 
     /**
+     * 指定route
+     * @param route
+     */
+    route(route) {
+        this.__options.route = route;
+        return this;
+    }
+
+    /**
      * 聚合排序
      * @param aggs
      */
@@ -429,6 +438,21 @@ export default class extends base {
     async select(options) {
         let parsedOptions = await this._parseOptions(options);
         return this.adapter().select(parsedOptions);
+    }
+
+    /**
+     * 查询全部集合,scan
+     * @param options
+     */
+    async selectAll(options) {
+        let parsedOptions = await this._parseOptions(options);
+        parsedOptions.scroll = '1m';
+        return this.adapter().selectAll(parsedOptions).then(res=> {
+            if (lib.isEmpty(res)) return [];
+            if (lib.isEmpty(res._scroll_id)) return [];
+            //if (res.hits.total <= 0) return [];
+            return this.adapter().scroll(res._scroll_id, parsedOptions.scroll)
+        })
     }
 
     /**

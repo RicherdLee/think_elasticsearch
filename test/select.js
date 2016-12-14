@@ -9,7 +9,7 @@ var ES = require('../index');
 //初始化模型
 var config = {
     db_type: 'es', // 数据库类型
-    db_host: '192.168.99.100', // 服务器地址
+    db_host: '192.168.1.1', // 服务器地址
     db_port: '9200', // 端口
     db_log: 'info'
 };
@@ -20,13 +20,19 @@ bookM
 //    price: {between: [10, 100]},
 //    //or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //    //not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-//})
+//})'NyPYKUHA
 //.match({
 //    or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //})
-    .setIndex('apsystem_*')
-    .field('goods,price')
-    .select().then(res => {
-    console.log(res.hits.hits)
+    .setIndex('am')
+    .setType()
+    .limit(1, 1000)
+    //.field('goods,price')
+    .selectAll().then(res => {
+    //console.log(res.hits.hits.length)
+    res.hits.hits.map(item=> {
+        "use strict";
+        console.log(item)
+    })
 })
