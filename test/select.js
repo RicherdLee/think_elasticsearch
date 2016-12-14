@@ -9,7 +9,7 @@ var ES = require('../index');
 //初始化模型
 var config = {
     db_type: 'es', // 数据库类型
-    db_host: '192.168.1.1', // 服务器地址
+    db_host: '', // 服务器地址
     db_port: '9200', // 端口
     db_log: 'info'
 };
@@ -25,14 +25,14 @@ bookM
 //    or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //})
-    .setIndex('am')
-    .setType()
-    .limit(1, 1000)
+    .setIndex('am_test')
+    .setType('list')
+    .where({id: '5e97ab25b4620e6a7f027647e6dc3615'})
     //.field('goods,price')
-    .selectAll().then(res => {
-    //console.log(res.hits.hits.length)
-    res.hits.hits.map(item=> {
-        "use strict";
-        console.log(item)
-    })
+    .find().then(res => {
+    console.log(res)
+    //res.hits.hits.map(item=> {
+    //    "use strict";
+    //    console.log(item)
+    //})
 })

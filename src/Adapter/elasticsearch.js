@@ -171,6 +171,27 @@ export default class extends base {
     }
 
     /**
+     * 直接根据id查询
+     * @param _id
+     */
+    get(_id) {
+        return this.socket().connect().then(conn=> {
+            return this.socket().connect().then(conn=> {
+                let condition = {
+                    index: this.queryObj.index,
+                    type: this.queryObj.type,
+                    id: this.queryObj.body.query.id
+                }
+                this.logSql && lib.log(JSON.stringify(condition), 'ES', Date.now());
+                return conn.get(condition);
+            }).then(data=> {
+                //this.close();
+                return data;
+            })
+        })
+    }
+
+    /**
      * 创建索引
      * @param index
      */
@@ -414,9 +435,14 @@ export default class extends base {
      * @param opitons
      */
     find(opitons) {
-        opitons.limit = [0, 1];
+        opitons.limit = [1, 1];
         this.queryBuilder(opitons, 'select');
-        return this.query();
+        //如果存在_id项,则直接查询
+        if (opitons.hasOwnProperty('where') && (opitons.where.hasOwnProperty('_id') || opitons.where.hasOwnProperty('id'))) {
+            return this.get(opitons.where.hasOwnProperty('_id') || opitons.where.hasOwnProperty('id'));
+        } else {
+            return this.query();
+        }
     }
 
     /**
@@ -560,7 +586,7 @@ export default class extends base {
      */
     builderLimit(optionLimit) {
         if (!optionLimit || optionLimit.length < 1)return;
-        this.queryObj.from = optionLimit[0];
+        this.queryObj.from = optionLimit[0] - 1;
         this.queryObj.size = optionLimit[1];
     }
 
