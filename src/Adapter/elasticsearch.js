@@ -157,6 +157,19 @@ export default class extends base {
         })
     }
 
+    scroll(scroll_id, scroll) {
+        return this.socket().connect().then(conn=> {
+            return conn.scroll({scrollId: scroll_id, scroll: scroll}).then(data=> {
+                return {conn: conn, data: data};
+            });
+        }).then(res=> {
+            //this.close();
+            //删除扫描id
+            res.conn.clearScroll(scroll_id);
+            return res.data;
+        })
+    }
+
     /**
      * 创建索引
      * @param index
@@ -354,6 +367,7 @@ export default class extends base {
         return this.execute(data, 'bulk');
     }
 
+
     /**
      * 更新数据,根据条件match,filter更新暂时没在ES文档中找到
      * @param data
@@ -383,6 +397,16 @@ export default class extends base {
     select(options) {
         this.queryBuilder(options, 'select');
         return this.query();
+    }
+
+
+    /**
+     * 查询
+     * @param options
+     */
+    selectAll(options) {
+        this.queryBuilder(options, 'selectall');
+        return this.query('scan');
     }
 
     /**
@@ -417,6 +441,7 @@ export default class extends base {
                 where: true,
                 version: true,
                 retry: true,
+                route: true,
                 order: true,
                 match: true,
                 filter: true,
@@ -426,10 +451,28 @@ export default class extends base {
                 group: true,
                 join: true
             },
-            add: {index: true, type: true, id: true},
+            selectall: {
+                index: true,
+                type: true,
+                where: true,
+                version: true,
+                retry: true,
+                route: true,
+                order: true,
+                match: true,
+                filter: true,
+                fields: true,
+                limit: true,
+                aggs: true,
+                group: true,
+                join: true,
+                scroll: true
+            },
+            add: {index: true, type: true, id: true, route: true,},
             update: {
                 index: true,
                 type: true,
+                route: true,
                 version: true,
                 retry: true,
                 where: true,
@@ -438,8 +481,17 @@ export default class extends base {
                 id: true
             },
             bulk: {index: true, type: true},
-            delete: {index: true, type: true, where: true},
-            count: {index: true, type: true, aggs: true, match: true, limit: true, filter: true, where: true},
+            delete: {index: true, type: true, where: true, route: true,},
+            count: {
+                index: true,
+                type: true,
+                aggs: true,
+                match: true,
+                limit: true,
+                filter: true,
+                where: true,
+                route: true,
+            },
             min: {index: true, type: true, where: true},
             max: {index: true, type: true, where: true},
             avg: {index: true, type: true, where: true},
@@ -550,6 +602,10 @@ export default class extends base {
      */
     builderOrder(optionsOrder) {
         this.queryObj.body.sort = optionsOrder;
+    }
+
+    builderScroll(optionsScroll) {
+        this.queryObj.scroll = optionsScroll;
     }
 
 }
