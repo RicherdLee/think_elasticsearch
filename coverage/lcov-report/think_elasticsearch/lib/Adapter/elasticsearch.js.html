@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">32.39% </span>
+        <span class="strong">31.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>80/247</span>
+        <span class='fraction'>81/257</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6.59% </span>
+        <span class="strong">6% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/91</span>
+        <span class='fraction'>6/100</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">10% </span>
+        <span class="strong">9.46% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>7/70</span>
+        <span class='fraction'>7/74</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">32.92% </span>
+        <span class="strong">32% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>79/240</span>
+        <span class='fraction'>80/250</span>
       </div>
     </div>
   </div>
@@ -805,7 +805,37 @@
 760
 761
 762
-763</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1076,6 +1106,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1348,7 +1403,12 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1832,6 +1892,31 @@ var _class = function (_base) {
     };
 &nbsp;
     /**
+     * 直接根据id查询
+     * @param _id
+     */
+&nbsp;
+&nbsp;
+    _class.prototype.get = <span class="fstat-no" title="function not covered" >function get(_id) {</span>
+<span class="cstat-no" title="statement not covered" >        var _this4 = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return this.socket().connect().then(<span class="fstat-no" title="function not covered" >function (conn) {</span></span>
+<span class="cstat-no" title="statement not covered" >            return _this4.socket().connect().then(<span class="fstat-no" title="function not covered" >function (conn) {</span></span>
+<span class="cstat-no" title="statement not covered" >                var condition = {</span>
+                    index: _this4.queryObj.index,
+                    type: _this4.queryObj.type,
+                    id: _this4.queryObj.body.query.id
+                };
+<span class="cstat-no" title="statement not covered" >                _this4.logSql &amp;&amp; _lib2.default.log((0, _stringify2.default)(condition), 'ES', Date.now());</span>
+<span class="cstat-no" title="statement not covered" >                return conn.get(condition);</span>
+            }).then(<span class="fstat-no" title="function not covered" >function (data) {</span>
+                //this.close();
+<span class="cstat-no" title="statement not covered" >                return data;</span>
+            });
+        });
+    };
+&nbsp;
+    /**
      * 创建索引
      * @param index
      */
@@ -2108,9 +2193,14 @@ var _class = function (_base) {
 &nbsp;
 &nbsp;
     _class.prototype.find = <span class="fstat-no" title="function not covered" >function find(opitons) {</span>
-<span class="cstat-no" title="statement not covered" >        opitons.limit = [0, 1];</span>
+<span class="cstat-no" title="statement not covered" >        opitons.limit = [1, 1];</span>
 <span class="cstat-no" title="statement not covered" >        this.queryBuilder(opitons, 'select');</span>
-<span class="cstat-no" title="statement not covered" >        return this.query();</span>
+        //如果存在_id项,则直接查询
+<span class="cstat-no" title="statement not covered" >        if (opitons.hasOwnProperty('where') &amp;&amp; (opitons.where.hasOwnProperty('_id') || opitons.where.hasOwnProperty('id'))) {</span>
+<span class="cstat-no" title="statement not covered" >            return this.get(opitons.where.hasOwnProperty('_id') || opitons.where.hasOwnProperty('id'));</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            return this.query();</span>
+        }
     };
 &nbsp;
     /**
@@ -2270,7 +2360,7 @@ var _class = function (_base) {
 &nbsp;
     _class.prototype.builderLimit = <span class="fstat-no" title="function not covered" >function builderLimit(optionLimit) {</span>
 <span class="cstat-no" title="statement not covered" >        if (!optionLimit || optionLimit.length &lt; 1) <span class="cstat-no" title="statement not covered" >return;</span></span>
-<span class="cstat-no" title="statement not covered" >        this.queryObj.from = optionLimit[0];</span>
+<span class="cstat-no" title="statement not covered" >        this.queryObj.from = optionLimit[0] - 1;</span>
 <span class="cstat-no" title="statement not covered" >        this.queryObj.size = optionLimit[1];</span>
     };
 &nbsp;
@@ -2335,7 +2425,7 @@ exports.default = _class;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 14 2016 10:52:40 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 14 2016 15:48:50 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>
