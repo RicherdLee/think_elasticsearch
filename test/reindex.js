@@ -15,5 +15,4 @@ var config = {
     db_port: '9200', // 端口
     db_log: 'info'
 };
-
-//ES.reIndex(config, 'am_2016-12', 'am_test');
+ES.reIndex(config, 'am_test', 'ik_1');

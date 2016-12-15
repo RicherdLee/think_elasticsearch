@@ -127,9 +127,9 @@ export default class extends base {
     }
 
     ping() {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.ping();
-        }).then((res)=> {
+        }).then((res) => {
             //this.close();
             return res;
         })
@@ -137,10 +137,10 @@ export default class extends base {
 
     query(searchType = 'query_then_fetch') {
         this.queryObj.searchType = searchType;
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             this.logSql && lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
             return conn.search(this.queryObj);
-        }).then(data=> {
+        }).then(data => {
             //this.close();
             return data;
         })
@@ -148,21 +148,21 @@ export default class extends base {
 
     execute(data, optype = 'create') {
         this.queryObj.body = data;
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             this.logSql && lib.log(JSON.stringify(this.queryObj), 'ES', Date.now());
             return conn[optype](this.queryObj);
-        }).then(data=> {
+        }).then(data => {
             //this.close();
             return data;
         })
     }
 
     scroll(scroll_id, scroll) {
-        return this.socket().connect().then(conn=> {
-            return conn.scroll({scrollId: scroll_id, scroll: scroll}).then(data=> {
+        return this.socket().connect().then(conn => {
+            return conn.scroll({scrollId: scroll_id, scroll: scroll}).then(data => {
                 return {conn: conn, data: data};
             });
-        }).then(res=> {
+        }).then(res => {
             //this.close();
             //删除扫描id
             res.conn.clearScroll(scroll_id);
@@ -175,8 +175,8 @@ export default class extends base {
      * @param _id
      */
     get(_id) {
-        return this.socket().connect().then(conn=> {
-            return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
+            return this.socket().connect().then(conn => {
                 let condition = {
                     index: this.queryObj.index,
                     type: this.queryObj.type,
@@ -184,10 +184,10 @@ export default class extends base {
                 }
                 this.logSql && lib.log(JSON.stringify(condition), 'ES', Date.now());
                 return conn.get(condition);
-            }).then(data=> {
+            }).then(data => {
                 //this.close();
                 return data;
-            }).catch(e=>{
+            }).catch(e => {
                 //此方法如果找不到,ES回报错误
                 return {}
             })
@@ -199,7 +199,7 @@ export default class extends base {
      * @param index
      */
     createIndex(index, setting) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.create({index: index, body: setting})
         })
     }
@@ -209,7 +209,7 @@ export default class extends base {
      * @param index
      */
     delIndex(index) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.delete({index: index})
         })
     }
@@ -220,7 +220,7 @@ export default class extends base {
      * @param newindex
      */
     reIndex(olderindex, newindex) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.reindex({
                 body: {
                     source: {
@@ -239,7 +239,7 @@ export default class extends base {
      * @param index
      */
     closeIndex(index) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.close({index: index})
         })
     }
@@ -249,7 +249,7 @@ export default class extends base {
      * @param index
      */
     openIndex(index) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.open({index: index})
         })
     }
@@ -260,18 +260,18 @@ export default class extends base {
      * @param alias
      */
     setAlias(index, alias) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.putAlias({index: index, name: alias})
         })
     }
 
 
     getAlias(index, alias) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.getAlias({
                 index: index,
                 name: alias
-            }).catch(e=> {
+            }).catch(e => {
                 //对于没有索引的
                 //console.log(e)
             })
@@ -284,7 +284,7 @@ export default class extends base {
      * @param type
      */
     existsType(index, type) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.existsType({
                 index: index,
                 type: type,
@@ -298,7 +298,7 @@ export default class extends base {
      * @param mapping
      */
     setMapping(index, type, mapping) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             let param = {
                 index: index,
                 type: type,
@@ -316,7 +316,7 @@ export default class extends base {
      * @param type
      */
     getMapping(index, type) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.getMapping({
                 index: index,
                 type: type
@@ -329,7 +329,7 @@ export default class extends base {
      * @param index
      */
     getSetting(index) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.getSettings({
                 index: index
             })
@@ -342,7 +342,7 @@ export default class extends base {
      * @param setting
      */
     setSetting(index, setting) {
-        return this.socket().connect().then(conn=> {
+        return this.socket().connect().then(conn => {
             return conn.indices.putSettings({
                 index: index,
                 body: setting
@@ -374,7 +374,7 @@ export default class extends base {
             }
             return {index: {_index: options.index, _type: options.type}}
         }
-        data.map(item=> {
+        data.map(item => {
             bulk.push(fn(item, options));
             bulk.push(item);
         });
@@ -485,6 +485,7 @@ export default class extends base {
                 type: true,
                 where: true,
                 version: true,
+                size: true,
                 retry: true,
                 route: true,
                 order: true,
@@ -635,6 +636,10 @@ export default class extends base {
 
     builderScroll(optionsScroll) {
         this.queryObj.scroll = optionsScroll;
+    }
+
+    buliderSize(optionsOrder) {
+        this.queryObj.body.size = optionsOrder;
     }
 
 }

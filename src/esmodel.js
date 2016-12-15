@@ -51,25 +51,25 @@ export default class extends base {
         let Adapter = require('./Adapter/elasticsearch').default;
         let _adapter = new Adapter(config);
         //创建索引
-        return _adapter.createIndex(newindex, options).then(()=> {
+        return _adapter.createIndex(newindex, options).then(() => {
             //数据迁移
             if (!lib.isEmpty(oldindex)) {
                 return _adapter.reIndex(oldindex, newindex);
             } else {
                 return Promise.resolve();
             }
-        }).then(()=> {
+        }).then(() => {
             //查看原有索引的与现在索引是否相同,如果相同的话,就需要删除原有索引
             if (delOldIndex == true) {
-                return _adapter.getAlias(oldindex).then((oldaliase)=> {
+                return _adapter.getAlias(oldindex).then((oldaliase) => {
                     if (aliase == oldaliase) return Error('原有索引与现索引的别名相同,需要设置delOldIndex为true来删除原有索引');
-                }).then(()=> {
+                }).then(() => {
                     return _adapter.delIndex(oldindex);
-                }).catch(e=> {
+                }).catch(e => {
                     console.log(e)
                 })
             }
-        }).then(()=> {
+        }).then(() => {
             //为新索引设置别名
             if (!lib.isEmpty(aliase)) {
                 return _adapter.setAlias(newindex, aliase);
@@ -81,20 +81,88 @@ export default class extends base {
     static reIndex(config, oldindex, newindex) {
         let Adapter = require('./Adapter/elasticsearch').default;
         let _adapter = new Adapter(config);
-        console.log(_adapter)
-        return _adapter().reIndex(oldindex, newindex);
+        return _adapter.reIndex(oldindex, newindex).catch(e => {
+            return _adapter.count({index: oldindex}).then(totalCount => {
+                    //对于过多数据时，一次scorll/bulk进行reindex可能会出问题，因此需要进行分页
+                    // let currentPage = 1, pageSize = 10000, count = totalCount.hits.total, total, bulk = [];
+                    // total = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize) + 1; //总页数
+                    let count = totalCount.hits.total, bulk=[];
+                    _adapter.selectAll({scroll: '3m', index: oldindex, limit: [1, count]}).then(res => {
+                        _adapter.scroll(res._scroll_id, '3m').then(list => {
+                            list.hits.hits.map(item => {
+                                bulk.push({
+                                    index: {
+                                        _index: newindex,
+                                        _type: item._type,
+                                        _id: item._id
+                                    }
+                                })
+                                bulk.push(item._source)
+                            })
+                            //通过bulk生成新的索引
+                            _adapter.bulk(bulk)
+                        })
+                    })
+                    // let reindexFn = function (oldindex, newindex, currentPage) {
+                    //     let startIndex = (currentPage - 1) * pageSize;
+                    //     // let endIndex = currentPage * pageSize > count ? count + 1 : currentPage * pageSize;
+                    //     _adapter.selectAll({scroll: '1m', index: oldindex, size: count}).then(res => {
+                    //         _adapter.scroll(res._scroll_id, '1m').then(list => {
+                    //             bulk = [];
+                    //             list.hits.hits.map(item => {
+                    //                 bulk.push({
+                    //                     index: {
+                    //                         _index: newindex,
+                    //                         _type: item._type,
+                    //                         _id: item._id
+                    //                     }
+                    //                 })
+                    //                 bulk.push(item._source)
+                    //             })
+                    //             //通过bulk生成新的索引
+                    //             // _adapter.bulk(bulk)
+                    //
+                    //         }).then(() => {
+                    //             currentPage++;
+                    //             if (total >= currentPage) {
+                    //                 reindexFn(oldindex, newindex, currentPage)
+                    //             }
+                    //         })
+                    //     })
+                    //
+                    //
+                    // }
+                    // reindexFn(oldindex, newindex, currentPage)
+
+                }
+            )
+            // return _adapter.selectAll({scroll: '1m', index: oldindex}).then(res => {
+            //     if (lib.isEmpty(res)) return [];
+            //     if (lib.isEmpty(res._scroll_id)) return [];
+            //     if (res.hits.total <= 0) return [];
+            //
+            //     if (res.hits.total > 1000) {
+            //
+            //     } else {
+            //         return _adapter.limit(1, res.hits.total).scroll(res._scroll_id, '1m').then(list => {
+            //             console.log(list.hits.hits.length)
+            //             _adapter.clearScroll(res._scroll_id)
+            //         })
+            //     }
+            // })
+        });
     }
 
     static setAlias(config, index, aliase) {
         let Adapter = require('./Adapter/elasticsearch').default;
         let _adapter = new Adapter(config);
-        return _adapter().setAlias(index, aliase);
+        return _adapter.setAlias(index, aliase);
     }
 
     static delIndex(configindex) {
         let Adapter = require('./Adapter/elasticsearch').default;
         let _adapter = new Adapter(config);
-        return _adapter().delIndex(index);
+        return _adapter.delIndex(index);
     }
 
     /**
@@ -447,7 +515,7 @@ export default class extends base {
     async selectAll(options) {
         let parsedOptions = await this._parseOptions(options);
         parsedOptions.scroll = '1m';
-        return this.adapter().selectAll(parsedOptions).then(res=> {
+        return this.adapter().selectAll(parsedOptions).then(res => {
             if (lib.isEmpty(res)) return [];
             if (lib.isEmpty(res._scroll_id)) return [];
             //if (res.hits.total <= 0) return [];
