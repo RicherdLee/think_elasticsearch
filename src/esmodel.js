@@ -86,7 +86,7 @@ export default class extends base {
                     //对于过多数据时，一次scorll/bulk进行reindex可能会出问题，因此需要进行分页
                     // let currentPage = 1, pageSize = 10000, count = totalCount.hits.total, total, bulk = [];
                     // total = count % pageSize == 0 ? parseInt(count / pageSize) : parseInt(count / pageSize) + 1; //总页数
-                    let count = totalCount.hits.total, bulk=[];
+                    let count = totalCount.hits.total, bulk = [];
                     _adapter.selectAll({scroll: '3m', index: oldindex, limit: [1, count]}).then(res => {
                         _adapter.scroll(res._scroll_id, '3m').then(list => {
                             list.hits.hits.map(item => {
@@ -332,8 +332,7 @@ export default class extends base {
      * @param match
      */
     match(match) {
-        if (lib.isObject(match)) match =
-            this.__options.match = match;
+        if (lib.isObject(match)) this.__options.match = match;
         return this;
     }
 

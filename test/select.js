@@ -9,7 +9,7 @@ var ES = require('../index');
 //初始化模型
 var config = {
     db_type: 'es', // 数据库类型
-    db_host: '120.27.196.80', // 服务器地址
+    db_host: '127.0.0.1', // 服务器地址
     db_port: '9200', // 端口
     db_log: 'info'
 };
@@ -20,17 +20,19 @@ bookM
 //    price: {between: [10, 100]},
 //    //or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //    //not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
-//})'NyPYKUHA
+//})
 //.match({
 //    or: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //})
-    .setIndex('am_test')
-    .setType('list')
-    .where({_id: '5e97ab25b4620e6a7f027647e6dc3611'})
-    //.field('goods,price')
+    .setIndex('am_*')
+    .setType('chains')
+    .filter({script: {script: "_source.cids.size() > length", params: {length: 2}}})
+    // .where({_id: ''})
+    // .field('goods,price')
+    // .match({outlink: ""})
     .find().then(res => {
-    console.log(res)
+    console.log(res.hits.hits)
     //res.hits.hits.map(item=> {
     //    "use strict";
     //    console.log(item)
