@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">31.92% </span>
+        <span class="strong">30.97% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>83/260</span>
+        <span class='fraction'>83/268</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">6% </span>
+        <span class="strong">5.5% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>6/100</span>
+        <span class='fraction'>6/109</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">10.53% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>8/76</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">32.41% </span>
+        <span class="strong">31.54% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>82/253</span>
+        <span class='fraction'>82/260</span>
       </div>
     </div>
   </div>
@@ -843,7 +843,22 @@
 798
 799
 800
-801</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -914,11 +929,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1604,6 +1626,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1616,6 +1642,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -1663,13 +1693,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 &nbsp;
 var _inherits3 = _interopRequireDefault(_inherits2);
 &nbsp;
-var _keys = require('babel-runtime/core-js/object/keys');
-&nbsp;
-var _keys2 = _interopRequireDefault(_keys);
-&nbsp;
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 &nbsp;
 var _getIterator3 = _interopRequireDefault(_getIterator2);
+&nbsp;
+var _keys = require('babel-runtime/core-js/object/keys');
+&nbsp;
+var _keys2 = _interopRequireDefault(_keys);
 &nbsp;
 var _base2 = require('../base');
 &nbsp;
@@ -1712,8 +1742,11 @@ var parseCondition = <span class="fstat-no" title="function not covered" >functi
         '&lt;=': 'lte',
         lte: 'lte',
         between: 'range',
-        range: 'range'
+        range: 'range',
+        script: 'script'
     };
+    //script条件和对象条件只能存在一类
+<span class="cstat-no" title="statement not covered" >    if (conditionObj.hasOwnProperty('script') &amp;&amp; (0, _keys2.default)(conditionObj).length &gt; 1) <span class="cstat-no" title="statement not covered" >throw new Error('script条件和对象条件只能存在一类');</span></span>
 <span class="cstat-no" title="statement not covered" >    var key = void 0,</span>
         value = void 0,
         cval = void 0;
@@ -1721,6 +1754,10 @@ var parseCondition = <span class="fstat-no" title="function not covered" >functi
 <span class="cstat-no" title="statement not covered" >    for (var ckey in conditionObj) {</span>
 <span class="cstat-no" title="statement not covered" >        cval = conditionObj[ckey];</span>
 <span class="cstat-no" title="statement not covered" >        switch (identifiers[ckey]) {</span>
+            //接受script脚本查询
+            case 'script':
+<span class="cstat-no" title="statement not covered" >                condition['script'] = cval;</span>
+<span class="cstat-no" title="statement not covered" >                break;</span>
             case 'should':
 <span class="cstat-no" title="statement not covered" >                condition.should || (condition.should = []);</span>
 <span class="cstat-no" title="statement not covered" >                for (var _iterator = cval, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : (0, _getIterator3.default)(_iterator);;) {</span>
@@ -2403,7 +2440,11 @@ var _class = function (_base) {
     _class.prototype.builderMatch = <span class="fstat-no" title="function not covered" >function builderMatch(optionMatch) {</span>
 <span class="cstat-no" title="statement not covered" >        var match = parseCondition(optionMatch);</span>
 <span class="cstat-no" title="statement not covered" >        this.queryObj.body.query.filtered.query || (this.queryObj.body.query.filtered.query = {});</span>
-<span class="cstat-no" title="statement not covered" >        this.queryObj.body.query.filtered.query = { bool: match };</span>
+<span class="cstat-no" title="statement not covered" >        if (filter.hasOwnProperty('script')) {</span>
+<span class="cstat-no" title="statement not covered" >            this.queryObj.body.query.filtered.filter = { script: filter };</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            this.queryObj.body.query.filtered.filter = { bool: match };</span>
+        }
     };
 &nbsp;
     /**
@@ -2415,7 +2456,11 @@ var _class = function (_base) {
     _class.prototype.builderFilter = <span class="fstat-no" title="function not covered" >function builderFilter(optionFilter) {</span>
 <span class="cstat-no" title="statement not covered" >        var filter = parseCondition(optionFilter);</span>
 <span class="cstat-no" title="statement not covered" >        this.queryObj.body.query.filtered.filter || (this.queryObj.body.query.filtered.filter = {});</span>
-<span class="cstat-no" title="statement not covered" >        this.queryObj.body.query.filtered.filter = { bool: filter };</span>
+<span class="cstat-no" title="statement not covered" >        if (filter.hasOwnProperty('script')) {</span>
+<span class="cstat-no" title="statement not covered" >            this.queryObj.body.query.filtered.filter = { script: filter };</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            this.queryObj.body.query.filtered.filter = { bool: filter };</span>
+        }
     };
 &nbsp;
     _class.prototype.builderAggs = <span class="fstat-no" title="function not covered" >function builderAggs(optionAggs) {</span>
@@ -2449,7 +2494,7 @@ exports.default = _class;</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Dec 15 2016 10:50:42 GMT+0800 (CST)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 23 2016 10:50:35 GMT+0800 (CST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

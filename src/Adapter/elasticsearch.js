@@ -24,13 +24,20 @@ let parseCondition = function (conditionObj, condition = {}, k, op = 'must') {
         '<=': 'lte',
         lte: 'lte',
         between: 'range',
-        range: 'range'
+        range: 'range',
+        script: 'script'
     }
+    //script条件和对象条件只能存在一类
+    if (conditionObj.hasOwnProperty('script') && Object.keys(conditionObj).length > 1) throw new Error('script条件和对象条件只能存在一类');
     let key, value, cval;
     //{id:1,or:[],not:[]}
     for (let ckey in conditionObj) {
         cval = conditionObj[ckey];
         switch (identifiers[ckey]) {
+            //接受script脚本查询
+            case 'script':
+                condition['script'] = cval;
+                break;
             case 'should':
                 condition.should || (condition.should = []);
                 for (let v of cval) {
@@ -609,7 +616,11 @@ export default class extends base {
     builderMatch(optionMatch) {
         let match = parseCondition(optionMatch)
         this.queryObj.body.query.filtered.query || (this.queryObj.body.query.filtered.query = {})
-        this.queryObj.body.query.filtered.query = {bool: match};
+        if (filter.hasOwnProperty('script')) {
+            this.queryObj.body.query.filtered.filter = {script: filter};
+        } else {
+            this.queryObj.body.query.filtered.filter = {bool: match};
+        }
     }
 
     /**
@@ -619,7 +630,11 @@ export default class extends base {
     builderFilter(optionFilter) {
         let filter = parseCondition(optionFilter)
         this.queryObj.body.query.filtered.filter || (this.queryObj.body.query.filtered.filter = {})
-        this.queryObj.body.query.filtered.filter = {bool: filter};
+        if (filter.hasOwnProperty('script')) {
+            this.queryObj.body.query.filtered.filter = {script: filter};
+        } else {
+            this.queryObj.body.query.filtered.filter = {bool: filter};
+        }
     }
 
     builderAggs(optionAggs) {
