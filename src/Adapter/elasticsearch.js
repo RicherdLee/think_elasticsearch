@@ -139,6 +139,8 @@ export default class extends base {
         }).then((res) => {
             //this.close();
             return res;
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -150,6 +152,8 @@ export default class extends base {
         }).then(data => {
             //this.close();
             return data;
+        }).catch(e => {
+            throw new Error(e)
         })
     }
 
@@ -161,6 +165,8 @@ export default class extends base {
         }).then(data => {
             //this.close();
             return data;
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -174,6 +180,8 @@ export default class extends base {
             //删除扫描id
             res.conn.clearScroll(scroll_id);
             return res.data;
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -195,8 +203,7 @@ export default class extends base {
                 //this.close();
                 return data;
             }).catch(e => {
-                //此方法如果找不到,ES回报错误
-                return {}
+                throw new Error(e);
             })
         })
     }
@@ -208,6 +215,8 @@ export default class extends base {
     createIndex(index, setting) {
         return this.socket().connect().then(conn => {
             return conn.indices.create({index: index, body: setting})
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -218,6 +227,8 @@ export default class extends base {
     delIndex(index) {
         return this.socket().connect().then(conn => {
             return conn.indices.delete({index: index})
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -238,6 +249,8 @@ export default class extends base {
                     }
                 }
             })
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -248,6 +261,8 @@ export default class extends base {
     closeIndex(index) {
         return this.socket().connect().then(conn => {
             return conn.indices.close({index: index})
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -258,6 +273,8 @@ export default class extends base {
     openIndex(index) {
         return this.socket().connect().then(conn => {
             return conn.indices.open({index: index})
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -269,6 +286,8 @@ export default class extends base {
     setAlias(index, alias) {
         return this.socket().connect().then(conn => {
             return conn.indices.putAlias({index: index, name: alias})
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -282,6 +301,8 @@ export default class extends base {
                 //对于没有索引的
                 //console.log(e)
             })
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -297,6 +318,8 @@ export default class extends base {
                 type: type,
                 waitForCompletion: true//保证迁移完毕
             })
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -314,6 +337,8 @@ export default class extends base {
                 }
             };
             return conn.indices.putMapping(param);
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -328,6 +353,8 @@ export default class extends base {
                 index: index,
                 type: type
             })
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -340,6 +367,8 @@ export default class extends base {
             return conn.indices.getSettings({
                 index: index
             })
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 
@@ -354,6 +383,8 @@ export default class extends base {
                 index: index,
                 body: setting
             })
+        }).catch(e => {
+            throw new Error(e);
         })
     }
 

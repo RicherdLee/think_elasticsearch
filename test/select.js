@@ -9,9 +9,10 @@ var ES = require('../index');
 //初始化模型
 var config = {
     db_type: 'es', // 数据库类型
-    db_host: '127.0.0.1', // 服务器地址
+    db_host: '', // 服务器地址
     db_port: '9200', // 端口
-    db_log: 'info'
+    db_log: 'info',
+
 };
 var book = require('../exmple/model/lib/book').default;
 var bookM = new book(config);
@@ -26,15 +27,20 @@ bookM
 //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //})
     .setIndex('am_*')
-    .setType('chains')
-    .filter({script: {script: "_source.cids.size() > length", params: {length: 2}}})
+    .setType('am')
+    // .filter({script: {script: "_source.cids.size() > length", params: {length: 2}}})
+    .filter({activityid:undefined})
     // .where({_id: ''})
     // .field('goods,price')
     // .match({outlink: ""})
-    .find().then(res => {
-    console.log(res.hits.hits)
-    //res.hits.hits.map(item=> {
-    //    "use strict";
-    //    console.log(item)
-    //})
+    .limit(1, 500)
+    .select().then(res => {
+    res.hits.hits.map(item => {
+        item = item._source;
+        // console.log(item)
+        console.log(`${item.activityid}|${item.uvmark}|${item.action}|${item.memberid}|${item['@timestamp']}`)
+    }).catch(e=>{
+        "use strict";
+        console.log(e)
+    })
 })
