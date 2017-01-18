@@ -13,6 +13,7 @@ var config = {
     db_port: '9200', // 端口
     db_log: 'info',
 
+
 };
 var book = require('../exmple/model/lib/book').default;
 var bookM = new book(config);
@@ -27,20 +28,21 @@ bookM
 //    not: [{goods: 'java'}, {goods: 'meat'}, {price: {gt: 1000}}],
 //})
     .setIndex('am_*')
-    .setType('am')
+    .setType('chains')
     // .filter({script: {script: "_source.cids.size() > length", params: {length: 2}}})
-    .filter({activityid:undefined})
+    .filter({phonenum: {like: '134'}, activityid: 372})
     // .where({_id: ''})
     // .field('goods,price')
     // .match({outlink: ""})
-    .limit(1, 500)
+    // .limit(1, 500)
     .select().then(res => {
-    res.hits.hits.map(item => {
-        item = item._source;
-        // console.log(item)
-        console.log(`${item.activityid}|${item.uvmark}|${item.action}|${item.memberid}|${item['@timestamp']}`)
-    }).catch(e=>{
-        "use strict";
-        console.log(e)
-    })
+    console.log(res.hits.hits)
+    // res.hits.hits.map(item => {
+    //     item = item._source;
+    //     // console.log(item)
+    //     console.log(`${item.activityid}|${item.uvmark}|${item.action}|${item.memberid}|${item['@timestamp']}`)
+    // }).catch(e => {
+    //     "use strict";
+    //     console.log(e)
+    // })
 })

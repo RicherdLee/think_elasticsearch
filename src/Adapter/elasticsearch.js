@@ -25,7 +25,9 @@ let parseCondition = function (conditionObj, condition = {}, k, op = 'must') {
         lte: 'lte',
         between: 'range',
         range: 'range',
-        script: 'script'
+        script: 'script',
+        like: 'prefix',
+        prefix: 'prefix'
     }
     //script条件和对象条件只能存在一类
     if (conditionObj.hasOwnProperty('script') && Object.keys(conditionObj).length > 1) throw new Error('script条件和对象条件只能存在一类');
@@ -33,6 +35,7 @@ let parseCondition = function (conditionObj, condition = {}, k, op = 'must') {
     //{id:1,or:[],not:[]}
     for (let ckey in conditionObj) {
         cval = conditionObj[ckey];
+        console.log(identifiers[ckey])
         switch (identifiers[ckey]) {
             //接受script脚本查询
             case 'script':
@@ -72,6 +75,11 @@ let parseCondition = function (conditionObj, condition = {}, k, op = 'must') {
             case 'lte':
                 condition[op] || (condition[op] = []);
                 condition[op].push({range: {[k]: {lte: cval}}});
+                break;
+            case 'like':
+            case 'prefix':
+                condition[op] || (condition[op] = []);
+                condition[op].push({prefix: {[k]: cval}});
                 break;
             case 'range':
                 condition[op] || (condition[op] = []);
